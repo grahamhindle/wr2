@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
-import Foo from './Foo'
-import Bar from './Bar'
+import Home from './Home'
+import LeaderBoard from './LeaderBoard'
+import NewQuestion from './NewQuestion'
+import LoginDialogBox from './LoginDialogBox'
+
+
 import { withStyles } from '@material-ui/core/styles';
-import { AppBar, Drawer, Divider, MenuItem, Paper,Toolbar} from '@material-ui/core'
+import { AppBar, Button, Drawer, Divider, MenuItem, Paper,Toolbar} from '@material-ui/core'
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import Typography from '@material-ui/core/Typography'
 import './App.css';
 
 const styles = {
@@ -26,59 +31,84 @@ const paperStyle = {
   textAlign: 'center',
   display: 'inline-block',
 }
+
 class App extends Component {
   constructor(props) {
     super(props)
     this.state= {
-      "open": false,
-      "show": null
+      "drawerOpen": false,
+      "show": null,
+      "login": false,
+      "menuDisabled": false,
+      loginText: 'Login'
     }
   }
 
   handleToggle = () => this.setState({open: !this.state.open})
-
+  handleLoginToggle= () => this.setState({show: 'login',login:!this.state.login})
   showBar =() => {
     this.setState({show: 'bar', open: false})
   }
 
   showHome =() => {
-    this.setState({show: 'bar', open: false})
+    this.setState({show: 'home', open: false})
   }
 
   showNewQuestion =() => {
-    this.setState({show: 'foo', open: false})
+    this.setState({show: 'question', open: false})
   }
 
-  showLederBoard =() => {
-    this.setState({show: 'bar', open: false})
+  showLeaderBoard =() => {
+    this.setState({show: 'leader', open: false})
+  }
+  login = () => {
+    this.setState((state, props) => ({
+      show: 'login',login: true
+    }));
   }
   render() {
     let content = null
 //to do - make this part of react router
+    console.log(this.state.show)
     switch (this.state.show) {
-      case 'foo':
-        content= (<Foo/>)
+      case 'home':
+        content= (<Home/>)
         break
-      case 'bar':
-        content= (<Bar/>)
+      case 'question':
+        content= (<NewQuestion/>)
         break
+      case 'leader':
+        content= (<LeaderBoard/>)
+        break
+        case 'login':
+        content= (<LoginDialogBox 
+                  open={true}
+                  />)
+        break  
       default:
-        content= <h1>Waiting</h1>
+        break
     }
 
     const {classes} = this.props
     return (
-      <div className="App">
+      <div className={classes.root}>
         <AppBar 
           position='static'
-          title = 'Welcome to Would You Rather App!'>
+          >
           <Toolbar>
             <IconButton disabled={false} className={classes.menuButton} color="inherit" aria-label="Menu"
-            title='Learn about drawer, menuitem and Paper'
             onClick={this.handleToggle}>
               <MenuIcon />
             </IconButton>
+            <Typography   className={classes.grow} variant="h6"  color='inherit'>Welcome to the Would You Rather App</Typography>
+            
+
+            <LoginDialogBox/>
+            
+
+            
           </Toolbar>
+        
         </AppBar>
           
         <Drawer
@@ -91,16 +121,8 @@ class App extends Component {
           <Divider />
           <MenuItem onClick = {this.showNewQuestion}>New Question</MenuItem>
           <MenuItem onClick = {this.showLeaderBoard}>Leader Board</MenuItem>
-
          </Drawer> 
-
-        <Paper style={paperStyle} >
-          <Toolbar style={{'justifyContent': 'center'}}>
-            
-          </Toolbar>
-          {content}
-          <p>Click the icon on the appbar to opern the drawer and then picvk a menu item</p>
-        </Paper>
+        {content}
       </div>
     );
   }
