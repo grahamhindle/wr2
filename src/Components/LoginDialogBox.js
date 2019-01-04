@@ -1,15 +1,12 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { ListItem, ListItemText, ListItemAvatar, Avatar} from '@material-ui/core'
+import { connect} from 'react-redux'
 
 
-
-export default class LoginDialog extends React.Component {
+class LoginDialog extends React.Component {
   constructor(props) {
     super(props)
   
@@ -27,6 +24,13 @@ export default class LoginDialog extends React.Component {
       }));
       
   };
+
+  authUser = (e) => {
+    console.log(e)
+    this.setState((state,props) => ({
+      open: false
+    }));
+  }
   handleClickOpen = () => {
     this.setState({ open: true });
   };
@@ -34,7 +38,7 @@ export default class LoginDialog extends React.Component {
 
   render() {
       console.log('dialog',this.state.open)
-      
+      const {users} =this.props
     return (
       <div>
       
@@ -46,31 +50,35 @@ export default class LoginDialog extends React.Component {
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
         >
-          <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              To subscribe to this website, please enter your email address here. We will send
-              updates occasionally.
-            </DialogContentText>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Email Address"
-              type="email"
-              fullWidth
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={this.handleClose} color="primary">
-              Subscribe
-            </Button>
-          </DialogActions>
+          <DialogTitle id="form-dialog-title">Select User</DialogTitle>
+          
+          {users.map((user) => (
+          < ListItem
+            button={true}
+            key={user.id}
+            onClick={() => this.authUser(user.id) } 
+          >
+            <ListItemAvatar>
+              <Avatar
+                alt={`Avatar n°${user.name + 1}`}
+                src={user.avatarURL}
+              />
+            </ListItemAvatar>
+            <ListItemText primary={user.name}/>
+          </ListItem>
+        ))}
         </Dialog>
       </div>
     );
   }
 }
+
+
+function mapStateToProps({ users, questions,authedUser}) {
+  return {
+      users: Object.values(users),
+      questions: Object.values(questions),
+      authedUser,
+  }
+}
+export default connect(mapStateToProps)(LoginDialog)

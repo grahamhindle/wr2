@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
+import {compose} from 'recompose'
 import Home from './Home'
 import LeaderBoard from './LeaderBoard'
 import NewQuestion from './NewQuestion'
 import LoginDialogBox from './LoginDialogBox'
-
-
 import { withStyles } from '@material-ui/core/styles';
-import { AppBar, Button, Drawer, Divider, MenuItem, Paper,Toolbar} from '@material-ui/core'
+import { AppBar,  Drawer, Divider, MenuItem, Toolbar} from '@material-ui/core'
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography'
 import './App.css';
+import { handleInitialData } from '../actions/shared'
+
 
 const styles = {
   root: {
@@ -24,13 +26,7 @@ const styles = {
     marginRight: 20,
   },
 };
-const paperStyle = {
-  height: '85%',
-  width: '85%',
-  margin: '7%',
-  textAlign: 'center',
-  display: 'inline-block',
-}
+
 
 class App extends Component {
   constructor(props) {
@@ -42,6 +38,11 @@ class App extends Component {
       "menuDisabled": false,
       loginText: 'Login'
     }
+  }
+
+  componentDidMount(){
+    this.props.dispatch(handleInitialData())
+    
   }
 
   handleToggle = () => this.setState({open: !this.state.open})
@@ -101,18 +102,10 @@ class App extends Component {
               <MenuIcon />
             </IconButton>
             <Typography   className={classes.grow} variant="h6"  color='inherit'>Welcome to the Would You Rather App</Typography>
-            
-
             <LoginDialogBox/>
-            
-
-            
           </Toolbar>
-        
         </AppBar>
-          
         <Drawer
-          
           width={200}
           open={this.state.open}
           onChange={(open)=> this.setState({open})}>
@@ -128,4 +121,4 @@ class App extends Component {
   }
 }
 
-export default withStyles(styles)(App);
+export default compose(withStyles(styles),connect())(App);
