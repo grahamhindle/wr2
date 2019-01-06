@@ -113,12 +113,19 @@ let questions = {
       text: 'write Swift'
     }
   },
+  
 }
+let authedUser = {}
 
-function generateUID () {
+export function generateUID () {
   return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
 }
 
+export function _getAuthedUser() {
+  return new Promise((res,rej) =>{
+    setTimeout(() => res({authedUser}), 1000)
+  })
+}
 export function _getUsers () {
   return new Promise((res, rej) => {
     setTimeout(() => res({...users}), 1000)
@@ -171,7 +178,10 @@ export function _saveQuestion (question) {
   })
 }
 
-export function _saveQuestionAnswer ({ authedUser, qid, answer }) {
+export function _saveQuestionAnswer ( authedUser, qid, answer ) {
+  
+  
+  
   return new Promise((res, rej) => {
     setTimeout(() => {
       users = {
@@ -184,7 +194,7 @@ export function _saveQuestionAnswer ({ authedUser, qid, answer }) {
           }
         }
       }
-
+      
       questions = {
         ...questions,
         [qid]: {
@@ -196,7 +206,8 @@ export function _saveQuestionAnswer ({ authedUser, qid, answer }) {
         }
       }
 
-      res()
+      res(users,questions)
     }, 500)
   })
+  
 }

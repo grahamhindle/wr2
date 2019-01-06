@@ -18,6 +18,10 @@ const styles = {
   root: {
     flexGrow: 1,
   },
+  modal: {
+    paddingTop: 50,
+    paddingAnchorTop: 50,
+  },
   grow: {
     flexGrow: 1,
   },
@@ -90,7 +94,9 @@ class App extends Component {
         break
     }
 
-    const {classes} = this.props
+    const {classes,  loggedInUser} = this.props
+    
+    
     return (
       <div className={classes.root}>
         <AppBar 
@@ -101,24 +107,49 @@ class App extends Component {
             onClick={this.handleToggle}>
               <MenuIcon />
             </IconButton>
-            <Typography   className={classes.grow} variant="h6"  color='inherit'>Welcome to the Would You Rather App</Typography>
+            <Typography   
+              className={classes.grow} 
+              variant="h6"  
+              color='inherit'>Welcome to the Would You Rather App
+            </Typography>
+            
+            <Typography   className={classes.grow} variant="h6"  
+              color='inherit'> 
+              
+              {loggedInUser ?
+                `Hello ${loggedInUser}`:
+                `Login to continue`
+              }
+            </Typography>
+            
             <LoginDialogBox/>
+            
           </Toolbar>
         </AppBar>
+        <br/>
         <Drawer
+        classes={{modal: classes.modal}}
+          anchor='left'
           width={200}
           open={this.state.open}
           onChange={(open)=> this.setState({open})}>
-          <AppBar title='AppBar'/>
+          
           <MenuItem onClick = {this.showHome}>Home</MenuItem>
           <Divider />
           <MenuItem onClick = {this.showNewQuestion}>New Question</MenuItem>
           <MenuItem onClick = {this.showLeaderBoard}>Leader Board</MenuItem>
+          
          </Drawer> 
         {content}
       </div>
     );
   }
 }
+function mapStateToProps (users,questions,authedUser){
+  return {
+    loggedInUser: authedUser,
+    users: Object.values(users)
+  }
+}
 
-export default compose(withStyles(styles),connect())(App);
+export default compose(withStyles(styles),connect(mapStateToProps))(App);

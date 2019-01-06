@@ -1,14 +1,104 @@
 import React, {Component} from 'react'
 import './App.css'
+import {connect } from 'react-redux'
+import {compose } from 'redux'
+import QuestionPanel from './QuestionPanel'
+import {Paper} from '@material-ui/core'
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography'
+import { withStyles } from '@material-ui/core/styles'
+// to do: check valid authedUser
+// display user profile
+// display menu
+// show questions , sorted by answered and unanswered
+// display user details
+
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
+  },
+  paper: {
+    flexGrow: 1,
+    margin:'auto',
+    padding: '25px',
+    backgroundColor: '#eeeeee',
+    width: '50%',
+  }
+})
+
+function TabContainer(props) {
+  return (
+    <Typography component="div" style={{ padding: 8 * 3 }}>
+      {props.children}
+    </Typography>
+  );
+}
 
 class Home extends Component {
+  state = {
+    value: 0,
+  }
+
+  handleChange = (event, value) => {
+    console.log(value)
+    this.setState({ value });
+  };
+
+  isAnsweredQuestion () {
+    if (this.state.value) {
+      
+
+    }
+  }
+componentDidMount(){
+  console.log('user logged on ',this.props.users)
+}
+
   render(){
+    const { value } = this.state;
+    
+    const { classes,  questions} = this.props
+    
+    
+    
     return (
-      <div>
-        this is the Home screen
-      </div>
+        <Paper className={classes.paper}>
+        <AppBar position="static">
+          <Tabs variant='fullWidth' value={value} onChange={this.handleChange}>
+            <Tab label="Unanswered Questions" />
+            <Tab label="Answered Questions" />
+          </Tabs>
+        </AppBar>
+        {value === 0 && <TabContainer>Unanswered</TabContainer>}
+        {value === 1 && <TabContainer>Answered</TabContainer>}
+         
+      {questions.map((question) => (
+        
+        <div key={question.id}>
+          <QuestionPanel key={question.id} 
+            question={question}
+            answered={this.state.value}
+            
+            >
+            </QuestionPanel>
+          </div>
+        ))}
+        
+        </Paper>
+      
       
     )
   }
 }
-export default Home
+
+function mapStateToProps({users,questions,authedUser}) {
+  return {
+      users: Object.values(users),
+      questions: Object.values(questions),
+      authedUser
+  }
+}
+export default compose(withStyles(styles),connect(mapStateToProps))(Home)
