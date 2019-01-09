@@ -4,9 +4,8 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import { ListItem, ListItemText, ListItemAvatar, Avatar} from '@material-ui/core'
 import { connect} from 'react-redux'
-import {setAuthedUser} from '../actions/authedUser'
-import {getLoggedOnUser} from '../actions/FilterUser'
-import {getLoggedInUser} from '../Utils/searchUsers'
+import {setLoggedInUser} from '../actions/shared'
+
 
 
 class LoginDialog extends React.Component {
@@ -17,6 +16,8 @@ class LoginDialog extends React.Component {
     open: false,
   };
 }
+
+
   handleClose = () => {
     
     this.setState((state,props) => ({
@@ -25,18 +26,32 @@ class LoginDialog extends React.Component {
       
   };
 
-  authUser = (e) => {
-    this.setState((state,props) => ({
-      open: false
+  loginHandler = (user) => {
+    const {dispatch, app_profile } =this.props
+    
+    const new_profile = Object.assign({
+      logindialog: false,
+      drawerenabled :true,
+      menuopen:false,
+      isloggedon:true,
+      currentuser: user,
+      },
+      app_profile) 
+    // update state for now - remove later
+    this.setState(() => ({
+      open: new_profile.logindialog
     }));
-    this.props.dispatch(setAuthedUser(e))
-    this.props.dispatch(getLoggedOnUser(getLoggedInUser(this.props.users,e)))
+   
+    // dispatch and update user profile and store current user             
+    this.props.dispatch(setLoggedInUser(new_profile))
   }
+
   handleClickOpen = () => {
     this.setState({ open: true });
-  };
-  render() {
-    const {users} =this.props
+  }
+
+  render(){
+    const { users } = this.props
     return (
       <div>
       
@@ -53,7 +68,7 @@ class LoginDialog extends React.Component {
         <ListItem
           button={true}
           key={user.id}
-          onClick={() => this.authUser(user.id) } 
+          onClick={() => this.loginHandler(user) } 
         >
         <ListItemAvatar>
           <Avatar
@@ -71,11 +86,11 @@ class LoginDialog extends React.Component {
 }
 
 
-function mapStateToProps({ users, questions,authedUser}) {
+function mapStateToProps({ dispatch, users, app_profile}) {
   return {
-      users: Object.values(users),
-      questions: Object.values(questions),
-      authedUser,
+      dispatch,
+      users:Object.values(users),
+      app_profile
   }
 }
 export default connect(mapStateToProps)(LoginDialog)

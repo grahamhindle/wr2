@@ -45,6 +45,7 @@ class App extends Component {
   }
 
   componentDidMount(){
+    
     this.props.dispatch(handleInitialData())
     
   }
@@ -145,10 +146,11 @@ class App extends Component {
     );
   }
 }
-function mapStateToProps (users,questions,authedUser){
+function mapStateToProps ({users,questions,app_profile}){
   return {
-    loggedInUser: authedUser,
-    users: Object.values(users)
+    users,
+    questions,
+    app_profile
   }
 }
 

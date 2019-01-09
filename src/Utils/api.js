@@ -1,6 +1,8 @@
 import { _getUsers, 
     _getQuestions,
-    _saveQuestionAnswer
+    _saveQuestionAnswer,
+    _getAppStatus,
+    _saveAppStatus,
   } from './_Data'
 
 
@@ -10,10 +12,11 @@ import { _getUsers,
     return Promise.all([
       _getUsers(),
       _getQuestions(),
-    ]).then(([users,questions]) => ({
+      _getAppStatus()
+    ]).then(([users,questions,app_profile]) => ({
       users,
       questions,
-      authedUser:null
+      app_profile,
     }))
   }
 
@@ -25,6 +28,20 @@ import { _getUsers,
     }))
   }
 
+  export function receiveAppProfile () {
+    return Promise.all([
+      _getAppStatus()
+    ]).then(([app_profile]) => ({
+      app_profile,
+    }))
+  }
+  export function saveAppProfile(new_profile) {
+    return Promise.all([
+      _saveAppStatus( new_profile )
+    ]).then(([app_profile]) => ({
+      app_profile
+    }))
+  }
   export function saveQuestionAndAnswer(authedUser, id, answer) {
     console.log('answer',answer)
     console.log('qid',id)
@@ -35,7 +52,7 @@ import { _getUsers,
       users,
       questions,
     }))
-
+  
   }
     
 

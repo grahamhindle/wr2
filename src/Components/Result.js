@@ -39,7 +39,7 @@ class Result extends React.Component {
           aria-describedby="alert-dialog-slide-description"
         >
           <DialogTitle id="alert-dialog-slide-title">
-            {"Use Google's location service?"}
+          {"Results"}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-slide-description">

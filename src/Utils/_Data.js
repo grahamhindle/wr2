@@ -115,17 +115,37 @@ let questions = {
   },
   
 }
-let authedUser = {}
+let app_profile = {
+  menuopen: false,
+  drawerenabled: false,
+  isloggedon: false,
+  logindialogopen: false,
+  currentuser:{},
+  hometabvalue: 0,
+}
 
 export function generateUID () {
   return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
 }
 
-export function _getAuthedUser() {
+export function _getAppStatus() {
   return new Promise((res,rej) =>{
-    setTimeout(() => res({authedUser}), 1000)
+    setTimeout(() => res({...app_profile}), 1000)
   })
 }
+
+export function _saveAppStatus(new_profile) {
+  return new Promise((res,rej) =>{
+    setTimeout(() => {
+      app_profile = {
+        app_profile: new_profile,
+      }
+     res(app_profile)
+    }, 500)
+  })
+}
+
+
 export function _getUsers () {
   return new Promise((res, rej) => {
     setTimeout(() => res({...users}), 1000)

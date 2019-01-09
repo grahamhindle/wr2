@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import './App.css'
 import {connect } from 'react-redux'
-import {compose } from 'redux'
+import {compose } from 'recompose'
 import QuestionPanel from './QuestionPanel'
 import {Paper} from '@material-ui/core'
 import AppBar from '@material-ui/core/AppBar';
@@ -9,7 +9,8 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
-// to do: check valid authedUser
+import {getLoggedInUser} from '../actions/shared'
+// to do: check valid user profile
 // display user profile
 // display menu
 // show questions , sorted by answered and unanswered
@@ -45,6 +46,7 @@ class Home extends Component {
   handleChange = (event, value) => {
     console.log(value)
     this.setState({ value });
+
   };
 
   isAnsweredQuestion () {
@@ -54,7 +56,8 @@ class Home extends Component {
     }
   }
 componentDidMount(){
-  console.log('user logged on ',this.props.users)
+  const { app_profile} = this.props
+  this.setState({ value:0  });
 }
 
   render(){
@@ -94,11 +97,13 @@ componentDidMount(){
   }
 }
 
-function mapStateToProps({users,questions,authedUser}) {
+function mapStateToProps({users,questions, app_profile}) {
   return {
+      
       users: Object.values(users),
       questions: Object.values(questions),
-      authedUser
+      app_profile
+      
   }
 }
 export default compose(withStyles(styles),connect(mapStateToProps))(Home)

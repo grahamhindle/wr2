@@ -12,14 +12,15 @@ import { Radio, RadioGroup, FormControlLabel } from '@material-ui/core'
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Avatar from '@material-ui/core/Avatar'
-import {compose } from 'redux'
+import {compose } from 'recompose'
 import { connect } from 'react-redux'
 import {getUserByAuthor,
         getAnsweredQuestions,
         getUnansweredQuestions} 
       from '../Utils/searchUsers'
 
-import {updateAnswer} from '../actions/shared'
+import {updateAnswer, getLoggedInUser} from '../actions/shared'
+
 import Result from './Result'
 
 
@@ -84,7 +85,12 @@ class QuestionPanel extends Component {
     }
 
     
+componentDidMount = () => {
+  (this.props.app_profile === undefined ?
+    this.props.dispatch(getLoggedInUser())
+    : console.log('displayquestion'))
 
+}
     handleChange = (event,value) => {
      
       this.setState({value})
@@ -93,9 +99,10 @@ class QuestionPanel extends Component {
     updateAnswer = () => {
       //dispatch the updated answer
       
-      
+      const { app_profile } = this.props
+      console.log(app_profile)
       //saveQuestionAndAnswer(this.props.userFilter.id,this.props.question.id,this.state.value)
-      this.props.dispatch(updateAnswer(this.props.userFilter.id,this.props.question.id,this.state.value))
+      //this.props.dispatch(updateAnswer(app_profile.currentuser.id,this.props.question.id,this.state.value))
     }
 
     showResults = () => {
@@ -107,28 +114,22 @@ class QuestionPanel extends Component {
   render() {
 
     
-  const { classes,users,question,answered,userFilter} = this.props
- 
+  const { classes,users,question,app_profile,answered} = this.props
+  console.log(this.props)
    const author = getUserByAuthor(users, question.author)
   console.log('answered',answered)
   
 let displayQuestion = []
-
+/*
   if (answered === 0) {
-    displayQuestion = getUnansweredQuestions(userFilter.answers,question.id)
+    displayQuestion = getUnansweredQuestions(app_profile.currentuser.answers,question.id)
   } else {
-    displayQuestion = getAnsweredQuestions(userFilter.answers,question.id)
+    displayQuestion = getAnsweredQuestions(app_profile.currentuser.answers,question.id)
   }
-    
-     
-
- 
-
-  
+  */
 
   if (displayQuestion === true){
   return (
-    
     <div className={classes.root}>
       <ExpansionPanel  defaultExpanded={false}>
         <ExpansionPanelSummary className={classes.button} expandIcon={<ExpandMoreIcon />}>
@@ -145,7 +146,6 @@ let displayQuestion = []
             >
             Would You Rather...
             </Typography>
-          
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.details}>
           <Avatar className={classes.bigAvatar} 
@@ -153,27 +153,21 @@ let displayQuestion = []
             src={author.avatarURL}
               />
           <div className={classes.column} />
-          
           <div className={classNames(classes.column, classes.secondaryHeading)}>
           <RadioGroup
             aria-label="answers"
             name="answer11"
             className={classes.group}
             value={this.state.value}
-            
-
             onChange={this.handleChange}
           >
-          
           <FormControlLabel value={'optionOne'} control={<Radio />} label={question.optionOne.text} />
-          <FormControlLabel value={'optionTwo'}  control={<Radio />} label={question.optionTwo.text} />
-            
+          <FormControlLabel value={'optionTwo'} control={<Radio />} label={question.optionTwo.text} />
           </RadioGroup>
           </div>
         </ExpansionPanelDetails>
         <Divider />
         <ExpansionPanelActions>
-        
           {answered === 0 ?
             <Button 
             className={classes.button} 
@@ -185,13 +179,11 @@ let displayQuestion = []
           Submit Answer
           </Button>
           : <Result />}
-         
         </ExpansionPanelActions>
       </ExpansionPanel>
     </div>
   )
-  }
-  else {
+  } else {
     return (<Fragment></Fragment>)
   }
   }
@@ -202,10 +194,11 @@ QuestionPanel.propTypes = {
   classes: PropTypes.object.isRequired,
 }
 
-function mapStateToProps ({users,userFilter}){
+function mapStateToProps ({users,app_profile}){
+  console.log(app_profile)
   return {
     users: Object.values(users),
-    userFilter
+    app_profile
   }
 }
 
