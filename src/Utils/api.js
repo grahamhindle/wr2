@@ -13,10 +13,10 @@ import { _getUsers,
       _getUsers(),
       _getQuestions(),
       _getAppStatus()
-    ]).then(([users,questions,app_profile]) => ({
+    ]).then(([users,questions,appstatus]) => ({
       users,
       questions,
-      app_profile,
+      appstatus,
     }))
   }
 
@@ -31,15 +31,15 @@ import { _getUsers,
   export function receiveAppProfile () {
     return Promise.all([
       _getAppStatus()
-    ]).then(([app_profile]) => ({
-      app_profile,
+    ]).then(([appstatus]) => ({
+      appstatus,
     }))
   }
   export function saveAppProfile(new_profile) {
     return Promise.all([
-      _saveAppStatus( new_profile )
-    ]).then(([app_profile]) => ({
-      app_profile
+      _saveAppStatus( new_profile)
+    ]).then(([appstatus]) => ({
+      appstatus
     }))
   }
   export function saveQuestionAndAnswer(authedUser, id, answer) {

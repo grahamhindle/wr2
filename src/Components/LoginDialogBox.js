@@ -5,6 +5,7 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import { ListItem, ListItemText, ListItemAvatar, Avatar} from '@material-ui/core'
 import { connect} from 'react-redux'
 import {setLoggedInUser} from '../actions/shared'
+import { produce} from 'immer'
 
 
 
@@ -26,22 +27,31 @@ class LoginDialog extends React.Component {
       
   };
 
-  loginHandler = (user) => {
-    const {dispatch, app_profile } =this.props
+
+  
+  authUser = (e) => {
     
-    const new_profile = Object.assign({
+    console.log('loggedinuser',this.props.users[e])
+    
+    console.log(e)
+    let new_profile = {
       logindialog: false,
       drawerenabled :true,
       menuopen:false,
       isloggedon:true,
-      currentuser: user,
-      },
-      app_profile) 
+      currentuser: null
+      
+      }
+      let user = this.props.users[e]
+      new_profile.currentuser = user 
+      
+      
     // update state for now - remove later
     this.setState(() => ({
-      open: new_profile.logindialog
+     open: false
     }));
    
+    console.log('new',new_profile)
     // dispatch and update user profile and store current user             
     this.props.dispatch(setLoggedInUser(new_profile))
   }
@@ -51,10 +61,12 @@ class LoginDialog extends React.Component {
   }
 
   render(){
-    const { users } = this.props
+    console.log(this.props)
+    
+    let userA = Object.values(this.props.users)
     return (
       <div>
-      
+      console.log(users)
       <Button variant="outlined" component="span" color="inherit" onClick={this.handleClickOpen}>
       Login
       </Button>
@@ -64,11 +76,11 @@ class LoginDialog extends React.Component {
         aria-labelledby="form-dialog-title"
         >
         <DialogTitle id="form-dialog-title">Select User</DialogTitle>
-        {users.map((user) => (
+        {userA.map((user) => (
         <ListItem
           button={true}
           key={user.id}
-          onClick={() => this.loginHandler(user) } 
+          onClick={() => this.authUser(user.id) }
         >
         <ListItemAvatar>
           <Avatar
@@ -81,16 +93,18 @@ class LoginDialog extends React.Component {
       ))}
       </Dialog>
     </div>
+      
     )
   }
 }
 
 
-function mapStateToProps({ dispatch, users, app_profile}) {
+function mapStateToProps(state) {
+  console.log('logdb',state)
   return {
-      dispatch,
-      users:Object.values(users),
-      app_profile
+      
+     users: state.users,
+      appstatus: state.appstatus,
   }
 }
 export default connect(mapStateToProps)(LoginDialog)

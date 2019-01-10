@@ -56,7 +56,7 @@ class Home extends Component {
     }
   }
 componentDidMount(){
-  const { app_profile} = this.props
+  const { appstatus} = this.props
   this.setState({ value:0  });
 }
 
@@ -97,12 +97,12 @@ componentDidMount(){
   }
 }
 
-function mapStateToProps({users,questions, app_profile}) {
+function mapStateToProps({users,questions, appstatus}) {
   return {
       
       users: Object.values(users),
       questions: Object.values(questions),
-      app_profile
+      appstatus
       
   }
 }

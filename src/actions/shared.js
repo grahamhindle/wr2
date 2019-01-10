@@ -9,10 +9,10 @@ import { saveQuestionAndAnswer ,saveAppProfile,receiveAppProfile } from '../Util
 export function handleInitialData(){
   return (dispatch) => {
     return getInitialData()
-      .then (({users, questions,app_profile})=> {
+      .then (({users, questions,appstatus})=> {
         dispatch(receiveUsers(users))
         dispatch(receiveQuestions(questions))
-        dispatch(getAppProfile(app_profile))
+        dispatch(getAppProfile(appstatus))
       })
   }
 }
@@ -32,8 +32,8 @@ export function updateAnswer(authedUser, id, answer) {
 export function setLoggedInUser(new_profile) {
   return (dispatch) => {
     return saveAppProfile(new_profile)
-      .then (({app_profile}) => {
-        dispatch(setAppProfile(app_profile))
+      .then (({appstatus}) => {
+        dispatch(setAppProfile(appstatus))
 
       })
     }
@@ -42,8 +42,8 @@ export function setLoggedInUser(new_profile) {
 export function getLoggedInUser() {
   return (dispatch) => {
     return receiveAppProfile()
-      .then (({app_profile}) => {
-        dispatch(getAppProfile(app_profile))
+      .then (({appstatus}) => {
+        dispatch(getAppProfile(appstatus))
 
       })
     }

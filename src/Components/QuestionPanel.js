@@ -86,7 +86,7 @@ class QuestionPanel extends Component {
 
     
 componentDidMount = () => {
-  (this.props.app_profile === undefined ?
+  (this.props.appstatus === undefined ?
     this.props.dispatch(getLoggedInUser())
     : console.log('displayquestion'))
 
@@ -99,10 +99,10 @@ componentDidMount = () => {
     updateAnswer = () => {
       //dispatch the updated answer
       
-      const { app_profile } = this.props
-      console.log(app_profile)
+      const { appstatus } = this.props
+      console.log(appstatus)
       //saveQuestionAndAnswer(this.props.userFilter.id,this.props.question.id,this.state.value)
-      //this.props.dispatch(updateAnswer(app_profile.currentuser.id,this.props.question.id,this.state.value))
+      //this.props.dispatch(updateAnswer(appstatus.currentuser.id,this.props.question.id,this.state.value))
     }
 
     showResults = () => {
@@ -114,19 +114,19 @@ componentDidMount = () => {
   render() {
 
     
-  const { classes,users,question,app_profile,answered} = this.props
+  const { classes,users,question,appstatus,answered} = this.props
   console.log(this.props)
    const author = getUserByAuthor(users, question.author)
   console.log('answered',answered)
   
 let displayQuestion = []
-/*
-  if (answered === 0) {
-    displayQuestion = getUnansweredQuestions(app_profile.currentuser.answers,question.id)
+
+  if (this.props.answered === 0) {
+    displayQuestion = getUnansweredQuestions(appstatus.currentuser.answers,question.id)
   } else {
-    displayQuestion = getAnsweredQuestions(app_profile.currentuser.answers,question.id)
+    displayQuestion = getAnsweredQuestions(appstatus.currentuser.answers,question.id)
   }
-  */
+  
 
   if (displayQuestion === true){
   return (
@@ -194,11 +194,11 @@ QuestionPanel.propTypes = {
   classes: PropTypes.object.isRequired,
 }
 
-function mapStateToProps ({users,app_profile}){
-  console.log(app_profile)
+function mapStateToProps ({users,appstatus}){
+  console.log(appstatus)
   return {
     users: Object.values(users),
-    app_profile
+    appstatus
   }
 }
 

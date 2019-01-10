@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, from 'react';
 import { connect } from 'react-redux'
 import {compose} from 'recompose'
 import Home from './Home'
@@ -10,8 +10,9 @@ import { AppBar,  Drawer, Divider, MenuItem, Toolbar} from '@material-ui/core'
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography'
-import './App.css';
+import './App.css'
 import { handleInitialData } from '../actions/shared'
+
 
 
 const styles = {
@@ -32,24 +33,10 @@ const styles = {
 };
 
 
-class App extends Component {
-  constructor(props) {
-    super(props)
-    this.state= {
-      "drawerOpen": false,
-      "show": null,
-      "login": false,
-      "menuDisabled": false,
-      loginText: 'Login',
+const MainContainer = (props) => {
+  
+const { classes, dispatch, loggedInUser, users} = this.props
 
-    }
-  }
-
-  componentDidMount(){
-    
-    this.props.dispatch(handleInitialData())
-    
-  }
 
   handleToggle = () => this.setState({open: !this.state.open})
   handleLoginToggle= () => this.setState({show: 'login',login:!this.state.login})
@@ -73,10 +60,9 @@ class App extends Component {
       show: 'login',login: true
     }));
   }
-  render() {
     let content = null
 //to do - make this part of react router
-    console.log(this.state.show)
+    
     switch (this.state.show) {
       case 'home':
         content= (<Home/>)
@@ -96,38 +82,12 @@ class App extends Component {
         break
     }
 
-    const {classes,  loggedInUser} = this.props
+
     
     
     return (
       <div className={classes.root}>
-        <AppBar 
-          position='static'
-          >
-          <Toolbar>
-            <IconButton disabled={false} className={classes.menuButton} color="inherit" aria-label="Menu"
-            onClick={this.handleToggle}>
-              <MenuIcon />
-            </IconButton>
-            <Typography   
-              className={classes.grow} 
-              variant="h6"  
-              color='inherit'>Welcome to the Would You Rather App
-            </Typography>
-            
-            <Typography   className={classes.grow} variant="h6"  
-              color='inherit'> 
-              
-              {loggedInUser ?
-                `Hello ${loggedInUser}`:
-                `Login to continue`
-              }
-            </Typography>
-            
-            <LoginDialogBox/>
-            
-          </Toolbar>
-        </AppBar>
+        
         <br/>
         <Drawer
         classes={{modal: classes.modal}}
@@ -144,15 +104,14 @@ class App extends Component {
          </Drawer> 
         {content}
       </div>
-    );
-  }
+    ); 
+  
 }
-function mapStateToProps ({users,questions,appstatus}){
+function mapStateToProps (users,questions,authedUser){
   return {
-    users,
-    questions,
-    appstatus
+    loggedInUser: authedUser,
+    users: Object.values(users)
   }
 }
 
-export default compose(withStyles(styles),connect(mapStateToProps))(App);
+export default compose(withStyles(styles),connect(mapStateToProps))(MainContainer);

@@ -2,16 +2,16 @@ export const GET_APP_STATUS = 'GET_APP_STATUS'
 export const SET_APP_STATUS = 'SET_APP_STATUS'
 
 
-export function getAppProfile(app_profile){
+export function getAppProfile(appstatus){
   return {
     type: GET_APP_STATUS,
-    app_profile
+    appstatus
   }
 }
-export function setAppProfile(app_profile){
+export function setAppProfile(appstatus){
   return {
   type: SET_APP_STATUS,
-  app_profile
+  appstatus
 
   }
 }

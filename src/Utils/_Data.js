@@ -115,12 +115,13 @@ let questions = {
   },
   
 }
-let app_profile = {
+let user = {}
+let appstatus = {
   menuopen: false,
   drawerenabled: false,
   isloggedon: false,
   logindialogopen: false,
-  currentuser:{},
+  user: user,
   hometabvalue: 0,
 }
 
@@ -130,20 +131,19 @@ export function generateUID () {
 
 export function _getAppStatus() {
   return new Promise((res,rej) =>{
-    setTimeout(() => res({...app_profile}), 1000)
+    setTimeout(() => res({appstatus}), 1000)
   })
 }
 
 export function _saveAppStatus(new_profile) {
   return new Promise((res,rej) =>{
     setTimeout(() => {
-      app_profile = {
-        app_profile: new_profile,
-      }
-     res(app_profile)
+        appstatus=  new_profile
+     res(appstatus)
     }, 500)
   })
 }
+
 
 
 export function _getUsers () {
