@@ -9,7 +9,8 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
-import {getLoggedInUser} from '../actions/shared'
+import {setAppStatus} from '../actions/AppProfile'
+
 // to do: check valid user profile
 // display user profile
 // display menu
@@ -44,9 +45,10 @@ class Home extends Component {
   }
 
   handleChange = (event, value) => {
-    console.log(value)
+    console.log('hometabvalue',value)
     this.setState({ value });
-
+    const key = this.props.dispatch(setAppStatus('hometabvalue',{value}))
+    console.log('key',key)
   };
 
   isAnsweredQuestion () {
@@ -55,10 +57,6 @@ class Home extends Component {
 
     }
   }
-componentDidMount(){
-  const { appstatus} = this.props
-  this.setState({ value:0  });
-}
 
   render(){
     const { value } = this.state;

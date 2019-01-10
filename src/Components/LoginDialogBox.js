@@ -39,7 +39,9 @@ class LoginDialog extends React.Component {
       drawerenabled :true,
       menuopen:false,
       isloggedon:true,
-      currentuser: null
+      hometabvalue:0,
+      currentuser: null,
+      
       
       }
       let user = this.props.users[e]
@@ -66,7 +68,6 @@ class LoginDialog extends React.Component {
     let userA = Object.values(this.props.users)
     return (
       <div>
-      console.log(users)
       <Button variant="outlined" component="span" color="inherit" onClick={this.handleClickOpen}>
       Login
       </Button>
@@ -100,7 +101,7 @@ class LoginDialog extends React.Component {
 
 
 function mapStateToProps(state) {
-  console.log('logdb',state)
+  
   return {
       
      users: state.users,

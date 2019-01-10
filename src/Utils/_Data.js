@@ -131,7 +131,7 @@ export function generateUID () {
 
 export function _getAppStatus() {
   return new Promise((res,rej) =>{
-    setTimeout(() => res({appstatus}), 1000)
+    setTimeout(() => res(appstatus), 1000)
   })
 }
 
@@ -140,6 +140,15 @@ export function _saveAppStatus(new_profile) {
     setTimeout(() => {
         appstatus=  new_profile
      res(appstatus)
+    }, 500)
+  })
+}
+
+export function _updateAppStatus(key,value){
+  return new Promise((res,rej) =>{
+    setTimeout(() => {
+      appstatus[key] = value
+     res(key)
     }, 500)
   })
 }

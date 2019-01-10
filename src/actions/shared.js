@@ -1,8 +1,12 @@
 import { getInitialData } from '../Utils/api'
 import { receiveUsers } from './users'
 import { receiveQuestions,answerQuestion } from './questions'
-import { getAppProfile,setAppProfile} from './AppProfile'
-import { saveQuestionAndAnswer ,saveAppProfile,receiveAppProfile } from '../Utils/api';
+import { getAppProfile,setAppProfile, setAppStatus} from './AppProfile'
+import { saveQuestionAndAnswer, 
+          saveAppProfile,
+          receiveAppProfile, 
+          updateAppStatus 
+        } from '../Utils/api';
 
 
 
@@ -34,6 +38,15 @@ export function setLoggedInUser(new_profile) {
     return saveAppProfile(new_profile)
       .then (({appstatus}) => {
         dispatch(setAppProfile(appstatus))
+
+      })
+    }
+}
+export function modifyAppStatus(key,value){
+  return (dispatch) => {
+    return updateAppStatus(key,value)
+      .then (({key}) => {
+        dispatch(setAppStatus(key,value))
 
       })
     }

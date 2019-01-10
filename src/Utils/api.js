@@ -3,6 +3,7 @@ import { _getUsers,
     _saveQuestionAnswer,
     _getAppStatus,
     _saveAppStatus,
+    _updateAppStatus,
   } from './_Data'
 
 
@@ -40,6 +41,15 @@ import { _getUsers,
       _saveAppStatus( new_profile)
     ]).then(([appstatus]) => ({
       appstatus
+    }))
+  }
+
+  export function updateAppStatus(key,value) {
+    console.log('updateAppStatus',key)
+    return Promise.all([
+      _updateAppStatus( key,value)
+    ]).then(([key]) => ({
+      key
     }))
   }
   export function saveQuestionAndAnswer(authedUser, id, answer) {
