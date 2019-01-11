@@ -40,48 +40,41 @@ function TabContainer(props) {
 }
 
 class Home extends Component {
-  state = {
-    value: 0,
-  }
+  
 
   handleChange = (event, value) => {
     
-    this.setState({ value });
+    
     const key = this.props.dispatch(setAppStatus('hometabvalue', value))
 
   };
 
-  isAnsweredQuestion () {
-    if (this.state.value) {
-      
-
-    }
-  }
+  
 
   render(){
-    const { value } = this.state;
     
-    const { classes,  questions} = this.props
+    
+    const { classes,  questions, appstatus} = this.props
     
     
     
     return (
         <Paper className={classes.paper}>
         <AppBar position="static">
-          <Tabs variant='fullWidth' value={value} onChange={this.handleChange}>
+          <Tabs variant='fullWidth' value={appstatus.hometabvalue} onChange={this.handleChange}>
             <Tab label="Unanswered Questions" />
             <Tab label="Answered Questions" />
           </Tabs>
         </AppBar>
-        {value === 0 && <TabContainer>Unanswered</TabContainer>}
-        {value === 1 && <TabContainer>Answered</TabContainer>}
+        {appstatus.hometabvalue === 0 && <TabContainer>Unanswered</TabContainer>}
+        {appstatus.hometabvalue=== 1 && <TabContainer>Answered</TabContainer>}
          
       {questions.map((question) => (
         
         <div key={question.id}>
           <QuestionPanel key={question.id} 
             question={question}
-            answered={this.state.value}
+            answered={appstatus.hometabvalue}
             
             >
             </QuestionPanel>
