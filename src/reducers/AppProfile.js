@@ -4,6 +4,7 @@ import {GET_APP_STATUS,
         UPDATE_APPSTATUS,
         } 
         from '../actions/AppProfile';
+      
 
 
 export default function appstatus( state = {}, action) {
@@ -19,18 +20,17 @@ export default function appstatus( state = {}, action) {
       return {
         ...state,
         ...action.appstatus
-        
       }
       case UPDATE_APPSTATUS:
-            const key = action.key
-            state.appstatus[key] = action.value
-            
-          return {
-            ...state,
-          }
+      return {
+          ...state,
+          [action.key]: action.value        
+        }
 
+        
     default:
       return state
   }
 }
+
 

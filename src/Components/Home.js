@@ -45,10 +45,10 @@ class Home extends Component {
   }
 
   handleChange = (event, value) => {
-    console.log('hometabvalue',value)
+    
     this.setState({ value });
-    const key = this.props.dispatch(setAppStatus('hometabvalue',{value}))
-    console.log('key',key)
+    const key = this.props.dispatch(setAppStatus('hometabvalue', value))
+
   };
 
   isAnsweredQuestion () {

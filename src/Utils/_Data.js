@@ -115,13 +115,12 @@ let questions = {
   },
   
 }
-let user = {}
+
 let appstatus = {
   menuopen: false,
   drawerenabled: false,
   isloggedon: false,
   logindialogopen: false,
-  user: user,
   hometabvalue: 0,
 }
 
