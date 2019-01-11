@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React  from 'react'
 import './App.css'
 import {connect } from 'react-redux'
 import {compose } from 'recompose'
@@ -31,7 +31,7 @@ const styles = theme => ({
   }
 })
 
-function TabContainer(props) {
+const  TabContainer = (props) => {
   return (
     <Typography component="div" style={{ padding: 8 * 3 }}>
       {props.children}
