@@ -5,7 +5,7 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import { ListItem, ListItemText, ListItemAvatar, Avatar} from '@material-ui/core'
 import { connect} from 'react-redux'
 import {setLoggedInUser} from '../actions/shared'
-import { produce} from 'immer'
+
 
 
 
@@ -35,7 +35,7 @@ class LoginDialog extends React.Component {
     
     console.log(e)
     let new_profile = {
-      logindialog: false,
+      logindialog: true,
       drawerenabled :true,
       menuopen:false,
       isloggedon:true,
@@ -63,9 +63,9 @@ class LoginDialog extends React.Component {
   }
 
   render(){
-    console.log(this.props)
-    
-    let userA = Object.values(this.props.users)
+
+    const { users} = this.props
+    let userA = Object.values(users)
     return (
       <div>
       <Button variant="outlined" component="span" color="inherit" onClick={this.handleClickOpen}>

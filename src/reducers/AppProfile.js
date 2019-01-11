@@ -8,7 +8,7 @@ import {GET_APP_STATUS,
 
 
 export default function appstatus( state = {}, action) {
-  
+  console.log( 'appstatus reducer',action.appstatus)
   switch ( action.type) {
     
     case GET_APP_STATUS:

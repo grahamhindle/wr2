@@ -134,12 +134,11 @@ export function _getAppStatus() {
   })
 }
 
-export function _saveAppStatus(new_profile) {
+export function _saveAppStatus(appstatus) {
+  console.log('_save', appstatus)
   return new Promise((res,rej) =>{
-    setTimeout(() => {
-        appstatus=  new_profile
-     res(appstatus)
-    }, 500)
+    Object.assign({}, appstatus)
+    setTimeout(() => res({appstatus}), 1000)
   })
 }
 

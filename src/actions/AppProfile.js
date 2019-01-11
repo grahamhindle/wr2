@@ -9,6 +9,7 @@ export function getAppProfile(appstatus){
   }
 }
 export function setAppProfile(appstatus){
+  console.log('action',appstatus)
   return {
   type: SET_APP_STATUS,
   appstatus

@@ -11,11 +11,7 @@ import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 import {setAppStatus} from '../actions/AppProfile'
 
-// to do: check valid user profile
-// display user profile
-// display menu
-// show questions , sorted by answered and unanswered
-// display user details
+
 
 const styles = theme => ({
   root: {
