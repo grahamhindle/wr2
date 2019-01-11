@@ -39,29 +39,18 @@ function TabContainer(props) {
   );
 }
 
-class Home extends Component {
-  
-
-  handleChange = (event, value) => {
-    
-    
-    const key = this.props.dispatch(setAppStatus('hometabvalue', value))
-
+const Home = (props) => {
+ 
+ const  handleChange = (event, value) => {
+  props.dispatch(setAppStatus('hometabvalue', value))
   };
 
-  
-
-  render(){
-    
-    
-    const { classes,  questions, appstatus} = this.props
-    
-    
+  const { classes,  questions, appstatus} = props
     
     return (
         <Paper className={classes.paper}>
         <AppBar position="static">
-          <Tabs variant='fullWidth' value={appstatus.hometabvalue} onChange={this.handleChange}>
+          <Tabs variant='fullWidth' value={appstatus.hometabvalue} onChange={handleChange}>
             <Tab label="Unanswered Questions" />
             <Tab label="Answered Questions" />
           </Tabs>
@@ -85,7 +74,7 @@ class Home extends Component {
       
       
     )
-  }
+  
 }
 
 function mapStateToProps({users,questions, appstatus}) {
