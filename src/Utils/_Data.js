@@ -122,6 +122,7 @@ let appstatus = {
   isloggedon: false,
   logindialogopen: false,
   hometabvalue: 0,
+  currentuser: null
 }
 
 export function generateUID () {
@@ -146,7 +147,7 @@ export function _updateAppStatus(key,value){
   return new Promise((res,rej) =>{
     setTimeout(() => {
       appstatus[key] = value
-     res(key)
+     res(key,value)
     }, 500)
   })
 }

@@ -8,7 +8,7 @@ import {GET_APP_STATUS,
 
 
 export default function appstatus( state = {}, action) {
-  console.log( 'appstatus reducer',action.appstatus)
+  console.log('key', action.value)
   switch ( action.type) {
     
     case GET_APP_STATUS:
@@ -26,8 +26,6 @@ export default function appstatus( state = {}, action) {
           ...state,
           [action.key]: action.value        
         }
-
-        
     default:
       return state
   }

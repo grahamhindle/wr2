@@ -8,7 +8,8 @@ import { saveQuestionAndAnswer,
           updateAppStatus 
         } from '../Utils/api';
 import { _saveQuestionAnswer,
-         _saveAppStatus } from '../Utils/_Data'
+         _saveAppStatus,
+        _updateAppStatus } from '../Utils/_Data'
 
 
 
@@ -56,11 +57,9 @@ export function _setLoggedInUser(new_profile) {
 }
 
 export function setLoggedInUser(new_profile) {
-  console.log('setloggedinbefore', new_profile)
   return (dispatch) => {
     return _saveAppStatus(new_profile)
       .then (({appstatus}) => {
-        console.log('setloggedin', appstatus)
         dispatch(setAppProfile(appstatus))
 
       })
@@ -68,8 +67,8 @@ export function setLoggedInUser(new_profile) {
 }
 export function modifyAppStatus(key,value){
   return (dispatch) => {
-    return updateAppStatus(key,value)
-      .then (({key}) => {
+    return _updateAppStatus(key,value)
+      .then ((key, value) => {
         dispatch(setAppStatus(key,value))
 
       })

@@ -4,7 +4,7 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import { ListItem, ListItemText, ListItemAvatar, Avatar} from '@material-ui/core'
 import { connect} from 'react-redux'
-import {setLoggedInUser} from '../actions/shared'
+import {setLoggedInUser,modifyAppStatus} from '../actions/shared'
 
 
 
@@ -31,9 +31,8 @@ class LoginDialog extends React.Component {
   
   authUser = (e) => {
     
-    console.log('loggedinuser',this.props.users[e])
+   
     
-    console.log(e)
     let new_profile = {
       logindialog: true,
       drawerenabled :true,
@@ -54,8 +53,9 @@ class LoginDialog extends React.Component {
     }));
    
     console.log('new',new_profile)
+    this.props.dispatch(modifyAppStatus('currentuser', user))
     // dispatch and update user profile and store current user             
-    this.props.dispatch(setLoggedInUser(new_profile))
+    //this.props.dispatch(setLoggedInUser(new_profile))
   }
 
   handleClickOpen = () => {
