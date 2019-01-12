@@ -152,6 +152,17 @@ export function _updateAppStatus(key,value){
   })
 }
 
+export function _saveCurrentUser(user){
+  console.log('_saveCurrentUser(user)',user)
+  return new Promise((res,rej) =>{
+    setTimeout(() => {
+      //copy appstatus to new object
+      Object.assign( {}, appstatus, {currentuser: user})
+     res()
+    }, 500)
+  })
+}
+
 
 
 export function _getUsers () {
