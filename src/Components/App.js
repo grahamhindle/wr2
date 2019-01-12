@@ -96,7 +96,7 @@ class App extends Component {
         break
     }
 
-    const {classes,  loggedInUser} = this.props
+    const {classes,  appstatus} = this.props
     
     
     return (
@@ -118,8 +118,8 @@ class App extends Component {
             <Typography   className={classes.grow} variant="h6"  
               color='inherit'> 
               
-              {loggedInUser ?
-                `Hello ${loggedInUser}`:
+              {appstatus.isloggedon  ?
+                `Hello ${appstatus.currentuser.name}`:
                 `Login to continue`
               }
             </Typography>
