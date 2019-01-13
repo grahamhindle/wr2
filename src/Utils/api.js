@@ -45,7 +45,7 @@ import { _getUsers,
   }
 
   export function updateAppStatus(key,value) {
-    console.log('updateAppStatus',key)
+   
     return Promise.all([
       _updateAppStatus( key,value)
     ]).then(([key]) => ({
@@ -53,9 +53,9 @@ import { _getUsers,
     }))
   }
   export function saveQuestionAndAnswer(authedUser, id, answer) {
-    console.log('answer',answer)
-    console.log('qid',id)
-    console.log('authedUser',authedUser)
+    
+
+    
     return Promise.all([
       _saveQuestionAnswer ( authedUser,id , answer )
     ]).then(([users,questions]) => ({

@@ -4,7 +4,7 @@ import {  GET_APP_STATE ,
 
 
 export default function uidstate( state = {}, action) {
-    console.log('action',action.uidstate)
+   
     switch ( action.type) {
       case GET_APP_STATE:
         return {

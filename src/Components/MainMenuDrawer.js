@@ -39,7 +39,7 @@ class MainMenuDrawer extends Component {
         const {classes, uidstate, id,autheduser,home, newQuestion, leaderBoard }= this.props
         const {open} =this.state.open
  
-    console.log(this.props)
+    
     return (
         
         <Drawer
@@ -62,7 +62,6 @@ class MainMenuDrawer extends Component {
 
 const mapStateToProps = state => {
     return {
-      uidstate: state.uidstate,
       users:state.users,
       autheduser: state.autheduser
     }

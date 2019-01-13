@@ -58,6 +58,7 @@ const styles = theme => ({
       marginLeft: theme.spacing.unit,
       marginRight: theme.spacing.unit,
       width: 200,
+      flexBasis: '50%',
     },
   
 })
@@ -95,7 +96,7 @@ class NewQuestion extends Component {
             id="standard-with-placeholder"
             label="enter option one text"
             placeholder="Placeholder"
-            className={classes.textField, classes.column}
+            className={classes.column}
             margin="normal"
           />
           Or

@@ -10,6 +10,7 @@ export default function questions( state = {}, action) {
     case ANSWER_QUESTION:
       return {
         ...state,
+        ...action.questions
 
       }
       

@@ -122,7 +122,12 @@ let appstatus = {
   isloggedon: false,
   logindialogopen: false,
   hometabvalue: 0,
-  currentuser: null
+  currentuser: null,
+  questionpanel: {
+    value: 'optionOne',
+    radioButtonDisabled: false,
+    result: false,
+  }
 }
 
 export function generateUID () {
@@ -136,7 +141,7 @@ export function _getAppStatus() {
 }
 
 export function _saveAppStatus(appstatus) {
-  console.log('_save', appstatus)
+ 
   return new Promise((res,rej) =>{
     Object.assign({}, appstatus)
     setTimeout(() => res({appstatus}), 1000)
@@ -153,7 +158,7 @@ export function _updateAppStatus(key,value){
 }
 
 export function _saveCurrentUser(user){
-  console.log('_saveCurrentUser(user)',user)
+ 
   return new Promise((res,rej) =>{
     setTimeout(() => {
       //copy appstatus to new object
@@ -220,7 +225,7 @@ export function _saveQuestion (question) {
 export function _saveQuestionAnswer ( authedUser, qid, answer ) {
   
   
-  
+  console.log('entry')
   return new Promise((res, rej) => {
     setTimeout(() => {
       users = {
@@ -244,7 +249,7 @@ export function _saveQuestionAnswer ( authedUser, qid, answer ) {
           }
         }
       }
-
+      console.log('result _saveQuestionAnswer',res)
       res(users,questions)
     }, 500)
   })

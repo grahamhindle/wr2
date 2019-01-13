@@ -4,7 +4,11 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import { ListItem, ListItemText, ListItemAvatar, Avatar} from '@material-ui/core'
 import { connect} from 'react-redux'
-import {saveCurrentUser} from '../actions/AppProfile'
+import {setAppStatus} from '../actions/AppProfile'
+import { getUsersState } from '../Selectors/user'
+import { getUiState} from '../Selectors/UiSelectors'
+import { loginUser } from '../actions/Login.js'
+
 
 
 
@@ -20,7 +24,8 @@ class LoginDialog extends React.Component {
 
 
   handleClose = () => {
-    
+    const { dispatch ,appstatus} = this.props
+    dispatch(setAppStatus(appstatus['LoginDialogBox'], "open",false))
     this.setState((state,props) => ({
         open: false
       }));
@@ -32,41 +37,30 @@ class LoginDialog extends React.Component {
   authUser = (e) => {
     
    
-    const { appstatus } = this.props
-    let new_profile = {
-      logindialog: true,
-      drawerenabled :true,
-      menuopen:false,
-      isloggedon:true,
-      hometabvalue:0,
-      currentuser: null,
-      
-      
-      }
-      let user = this.props.users[e]
-      new_profile.currentuser = user 
-      
-      
-    // update state for now - remove later
+    const { dispatch} = this.props
     this.setState(() => ({
      open: false
     }));
-   
-    console.log('new',new_profile)
-    this.props.dispatch(saveCurrentUser(appstatus,user))
-    //this.props.dispatch(modifyAppStatus('currentuser', user))
-    // dispatch and update user profile and store current user             
-    //this.props.dispatch(setLoggedInUser(new_profile))
+    dispatch(loginUser(true, e))
+    this.handleClose()
+    
   }
 
   handleClickOpen = () => {
+    const { dispatch ,appstatus ,uiparams} = this.props
+    console.log( 'uiparams',uiparams)
+    dispatch(setAppStatus(appstatus['LoginDialogBox'], "open",true))
     this.setState({ open: true });
+    console.log( 'uiparams',uiparams)
+
   }
 
+  
   render(){
 
-    const { users} = this.props
-    let userA = Object.values(users)
+    const { users,  appstatus} = this.props
+    const {LoginDialogBox: {open}} = appstatus
+    console.log('uiparams',open)
     return (
       <div>
       <Button variant="outlined" component="span" color="inherit" onClick={this.handleClickOpen}>
@@ -78,11 +72,11 @@ class LoginDialog extends React.Component {
         aria-labelledby="form-dialog-title"
         >
         <DialogTitle id="form-dialog-title">Select User</DialogTitle>
-        {userA.map((user) => (
+        {users.map((user) => (
         <ListItem
           button={true}
           key={user.id}
-          onClick={() => this.authUser(user.id) }
+          onClick={ () => this.authUser(user.id) }
         >
         <ListItemAvatar>
           <Avatar
@@ -101,12 +95,14 @@ class LoginDialog extends React.Component {
 }
 
 
-function mapStateToProps(state) {
-  
+function mapStateToProps(state,props) {
+  console.log('prop',props)
   return {
-      
-     users: state.users,
-      appstatus: state.appstatus,
+    
+    uiparams: getUiState(state,props.name),
+    loggedIn: getUsersState(state),
+    users: Object.values(state.users),
+    appstatus: state.appstatus,
   }
 }
 export default connect(mapStateToProps)(LoginDialog)

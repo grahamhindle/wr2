@@ -1,16 +1,14 @@
 import { getInitialData } from '../Utils/api'
 import { receiveUsers } from './users'
 import { receiveQuestions,answerQuestion } from './questions'
-import { getAppProfile,setAppProfile, setAppStatus, saveCurrentUser} from './AppProfile'
+import { loginUser } from './Login'
+import { getAppProfile,setAppProfile, setAppStatus} from './AppProfile'
 import { saveQuestionAndAnswer, 
-          saveAppProfile,
           receiveAppProfile, 
-          updateAppStatus 
         } from '../Utils/api';
-import { _saveQuestionAnswer,
-         _saveAppStatus,
-        _updateAppStatus,
-        _saveCurrentUser 
+
+import { _saveAppStatus,
+         _updateAppStatus,
       } from '../Utils/_Data'
 
 
@@ -21,52 +19,25 @@ export function handleInitialData(){
       .then (({users, questions,appstatus})=> {
         dispatch(receiveUsers(users))
         dispatch(receiveQuestions(questions))
-        dispatch(getAppProfile(appstatus))
+        dispatch(loginUser(false,""))
+        dispatch(getAppProfile())
       })
   }
 }
 
 
-export function _updateAnswer(authedUser, id, answer) {
+export function updateAnswer(authedUser, id, answer) {
   return (dispatch) => {
     return saveQuestionAndAnswer(authedUser,id , answer)
       .then (({users,questions}) => {
         dispatch(receiveUsers(users))
         dispatch(receiveQuestions(questions))
-        dispatch(answerQuestion())
+        dispatch(answerQuestion(questions))
       })
     }
 }
 
-export function updateAnswer(authedUser, id, answer) {
-  return (dispatch) => {
-    return _saveQuestionAnswer(authedUser,id , answer)
-      .then (({users,questions}) => {
-        dispatch(receiveUsers(users))
-        dispatch(receiveQuestions(questions))
-        dispatch(answerQuestion())
-      })
-    }
-}
-export function _setLoggedInUser(new_profile) {
-  return (dispatch) => {
-    return saveAppProfile(new_profile)
-      .then (({appstatus}) => {
-        dispatch(setAppProfile(appstatus))
 
-      })
-    }
-}
-
-export function setCurrentUser(user) {
-  return (dispatch) => {
-    return _saveCurrentUser(user)
-      .then (({appstatus}) => {
-        dispatch(saveCurrentUser(appstatus))
-
-      })
-    }
-}
 
 export function setLoggedInUser(new_profile) {
   return (dispatch) => {
@@ -77,11 +48,12 @@ export function setLoggedInUser(new_profile) {
       })
     }
 }
-export function modifyAppStatus(key,value){
+export function modifyAppStatus(appstatus,key,value){
   return (dispatch) => {
-    return _updateAppStatus(key,value)
-      .then ((key, value) => {
+    return _updateAppStatus(appstatus, key,value)
+      .then ((key, value,appstatus) => {
         dispatch(setAppStatus(key,value))
+        dispatch(getAppProfile())
 
       })
     }
@@ -91,7 +63,7 @@ export function getLoggedInUser() {
   return (dispatch) => {
     return receiveAppProfile()
       .then (({appstatus}) => {
-        dispatch(getAppProfile(appstatus))
+        dispatch(getAppProfile())
 
       })
     }

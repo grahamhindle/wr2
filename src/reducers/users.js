@@ -1,4 +1,4 @@
-import { RECEIVE_USERS } from '../actions/users'
+import { RECEIVE_USERS, GET_USER_PROFILE } from '../actions/users'
 
 
 export default function users( state = {}, action) {
@@ -8,6 +8,12 @@ export default function users( state = {}, action) {
         ...state,
         ...action.users
       }
+      case GET_USER_PROFILE:
+    
+  
+        return state
+      
+
     default:
       return state
   }

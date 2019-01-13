@@ -1,15 +1,31 @@
 
 import {GET_APP_STATUS,
         SET_APP_STATUS,
-        UPDATE_APPSTATUS,
+        UPDATE_APP_STATUS,
         SET_CURRENT_USER,
         } 
         from '../actions/AppProfile';
-      
+        const InitialState  =  {
+          App: {
+            open: false,
+            show: null,
+          },
+          Home: {
+            value: 0,
+          },
+          LoginDialogBox: {
+            open: false,
+          },
+          QuestionPanel: {
+            value: 'optionOne',
+            radioButtonDisabled: false,
+            result: false,
+          },
+        }     
 
 
-export default function appstatus( state = {}, action) {
-  console.log('key', action.value)
+export default function appstatus( state = InitialState, action) {
+  console.log('appstatus',action.appstatus)
   switch ( action.type) {
     
     case GET_APP_STATUS:
@@ -20,14 +36,27 @@ export default function appstatus( state = {}, action) {
     case SET_APP_STATUS:
       return {
         ...state,
+        ...appstatus,
         ...action.appstatus
       }
-      case UPDATE_APPSTATUS:
-      return  Object.assign({},action.appstatus,{
+     case UPDATE_APP_STATUS:
+     return {
+       ...state,
+       ...action.appstatus[action.key] = action.value
+       
+     }
+     /*
+      return Object.assign({},action.appstatus,{
         [action.key]: action.value })
+*/
       case SET_CURRENT_USER:
-          return  Object.assign({}, action.appstatus,{
-            currentuser: action.user})
+        return {
+        ...state.appstatus,
+        ...action.id,
+        }
+           // return Object.assign({},state.appstatus,{
+          //    currentuser:  action.id })
+          
             
     default:
       return state

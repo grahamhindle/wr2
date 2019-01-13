@@ -18,10 +18,13 @@ import {getUserByAuthor,
         getAnsweredQuestions,
         getUnansweredQuestions} 
       from '../Utils/searchUsers'
+import { getUsersState,getAnswerState} from '../Selectors/user'
 
-import {updateAnswer, getLoggedInUser} from '../actions/shared'
+import {updateAnswer} from '../actions/shared'
+import { setAppStatus } from '../actions/AppProfile'
 
 import Result from './Result'
+
 
 
 const styles = theme => ({
@@ -70,65 +73,58 @@ const styles = theme => ({
     },
   
 })
-
-
-
 class QuestionPanel extends Component {
-    constructor(props) {
-      super(props)
-      this.state= {
-        value: 'optionOne',
-        radioButtonDisabled: false,
-        result: false,
-        
-      }
-    }
-
     
-componentDidMount = () => {
-  (this.props.appstatus === undefined ?
-    this.props.dispatch(getLoggedInUser())
-    : console.log('displayquestion'))
-
-}
     handleChange = (event,value) => {
-     
-      this.setState({value})
+      const { dispatch, appstatus} = this.props
+      
+      console.log('value',event.target.value)
+      dispatch(setAppStatus( appstatus['QuestionPanel'], 'value',event.target.value ))
+      
     }
 
     updateAnswer = () => {
       //dispatch the updated answer
       
-      const { appstatus } = this.props
-      console.log(appstatus)
-      //saveQuestionAndAnswer(this.props.userFilter.id,this.props.question.id,this.state.value)
-      //this.props.dispatch(updateAnswer(appstatus.currentuser.id,this.props.question.id,this.state.value))
+      const { dispatch, appstatus,login, question } = this.props
+      const { loggedIn} =this.props
+      const {QuestionPanel: {value}} = appstatus
+      
+      dispatch(updateAnswer(login.userid,question.id,value))
+      
     }
-
+/* To do 
     showResults = () => {
+      const {dispatch, appstatus} = this.props
+     // dispatch(setAppStatus( appstatus.questionpanel.results, true ))
       this.setState((state, prevState) => ({
         result: true
       }));
     }
-
+*/
   render() {
+  const { dispatch, classes,users,question,appstatus,answered,login} = this.props
+  const {QuestionPanel: {radioButtonDisabled}} = appstatus
+  const {QuestionPanel: {value}} = appstatus
 
-    
-  const { classes,users,question,appstatus,answered} = this.props
   console.log(this.props)
-   const author = getUserByAuthor(users, question.author)
-  console.log('answered',answered)
-  
-let displayQuestion = []
+  // create action for this
+  const author = getUserByAuthor(Object.values(users), question.author)
+
+  //create selector for this
+  let displayQuestion = []
 
   if (this.props.answered === 0) {
-    displayQuestion = getUnansweredQuestions(appstatus.currentuser.answers,question.id)
+    displayQuestion = getUnansweredQuestions(users[login.userid].answers,question.id)  
   } else {
-    displayQuestion = getAnsweredQuestions(appstatus.currentuser.answers,question.id)
+    displayQuestion = getAnsweredQuestions(users[login.userid].answers,question.id)
+   
   }
+  //
   
-
+  
   if (displayQuestion === true){
+
   return (
     <div className={classes.root}>
       <ExpansionPanel  defaultExpanded={false}>
@@ -158,11 +154,11 @@ let displayQuestion = []
             aria-label="answers"
             name="answer11"
             className={classes.group}
-            value={this.state.value}
-            onChange={this.handleChange}
+            value={value}
+            onChange={ this.handleChange}
           >
-          <FormControlLabel value={'optionOne'} control={<Radio />} label={question.optionOne.text} />
-          <FormControlLabel value={'optionTwo'} control={<Radio />} label={question.optionTwo.text} />
+          <FormControlLabel value={'optionOne'} disabled={radioButtonDisabled} control={<Radio />} label={question.optionOne.text} />
+          <FormControlLabel value={'optionTwo'} disabled ={radioButtonDisabled} control={<Radio />} label={question.optionTwo.text} />
           </RadioGroup>
           </div>
         </ExpansionPanelDetails>
@@ -174,7 +170,7 @@ let displayQuestion = []
             variant='contained' 
             size='large' 
             fullWidth={true} 
-            onClick={this.updateAnswer}
+            onClick={() => this.updateAnswer()}
           >
           Submit Answer
           </Button>
@@ -194,11 +190,14 @@ QuestionPanel.propTypes = {
   classes: PropTypes.object.isRequired,
 }
 
-function mapStateToProps ({users,appstatus}){
-  console.log(appstatus)
+function mapStateToProps (state){
+
   return {
-    users: Object.values(users),
-    appstatus
+    dispatch: state.dispatch,
+    users: state.users,
+    appstatus: state.appstatus,
+    userProfile: getUsersState(state),
+    login: state.login
   }
 }
 

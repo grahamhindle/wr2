@@ -9,7 +9,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
-import {setAppStatus} from '../actions/AppProfile'
+import {setAppStatus } from '../actions/AppProfile'
 
 
 
@@ -38,30 +38,40 @@ const  TabContainer = (props) => {
 const Home = (props) => {
  
  const  handleChange = (event, value) => {
-  props.dispatch(setAppStatus('hometabvalue', value))
+   const {appstatus, dispatch} = props
+  dispatch(setAppStatus( appstatus['Home'],'value', value))
+  let rvalue = false
+  value === 1 ? 
+    rvalue = true : rvalue = false
+    dispatch(setAppStatus( appstatus['QuestionPanel'], 'radioButtonDisabled',rvalue ))
   };
 
-  const { classes,  questions, appstatus} = props
-    
+  const { classes,  questions,appstatus} = props
+  const { Home: {value}} = appstatus
+
+  
     return (
         <Paper className={classes.paper}>
         <AppBar position="static">
-          <Tabs variant='fullWidth' value={appstatus.hometabvalue} onChange={handleChange}>
+          <Tabs variant='fullWidth' value={value} onChange={handleChange}>
             <Tab label="Unanswered Questions" />
             <Tab label="Answered Questions" />
           </Tabs>
         </AppBar>
-        {appstatus.hometabvalue === 0 && <TabContainer>Unanswered</TabContainer>}
-        {appstatus.hometabvalue=== 1 && <TabContainer>Answered</TabContainer>}
+        {value === 0 && <TabContainer>Unanswered</TabContainer>}
+        {value=== 1 && <TabContainer>Answered</TabContainer>}
          
       {questions.map((question) => (
         
         <div key={question.id}>
           <QuestionPanel key={question.id} 
+            name="QuestionPanel"
             question={question}
-            answered={appstatus.hometabvalue}
+            answered={value}
+            
             
             >
+
             </QuestionPanel>
           </div>
         ))}
@@ -73,12 +83,12 @@ const Home = (props) => {
   
 }
 
-function mapStateToProps({users,questions, appstatus}) {
+function mapStateToProps(state) {
   return {
       
-      users: Object.values(users),
-      questions: Object.values(questions),
-      appstatus
+      users: Object.values(state.users),
+      questions: Object.values(state.questions),
+      appstatus: state.appstatus
       
   }
 }

@@ -21,7 +21,7 @@ export function getAnsweredQuestions(answers,id) {
 export function getUnansweredQuestions(answers,id) {
   const x = Object.keys(answers)
   const y = x.filter(key => key === id)
-  console.log(y)
+  
   if ( y && y.length){
     return false
   } 

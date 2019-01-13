@@ -12,6 +12,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography'
 import './App.css';
 import { handleInitialData } from '../actions/shared'
+import { getUsersState}  from '../Selectors/user'
 
 
 const styles = {
@@ -96,7 +97,8 @@ class App extends Component {
         break
     }
 
-    const {classes,  appstatus} = this.props
+    const {classes ,appstatus,loggedIn} = this.props
+    
     
     
     return (
@@ -118,13 +120,14 @@ class App extends Component {
             <Typography   className={classes.grow} variant="h6"  
               color='inherit'> 
               
-              {appstatus.isloggedon  ?
-                `Hello ${appstatus.currentuser.name}`:
+              {/*appstatus.login  ?
+                `Hello ${loggedIn.name}`:
                 `Login to continue`
-              }
+              
+              */}
             </Typography>
             
-            <LoginDialogBox/>
+            <LoginDialogBox name = "LoginDialogBox"/>
             
           </Toolbar>
         </AppBar>
@@ -147,11 +150,11 @@ class App extends Component {
     );
   }
 }
-function mapStateToProps ({users,questions,appstatus}){
+function mapStateToProps (state,props){
   return {
-    users,
-    questions,
-    appstatus
+    
+    appstatus: state.appstatus,
+  
   }
 }
 
