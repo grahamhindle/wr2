@@ -18,7 +18,7 @@ import {getUserByAuthor,
         getAnsweredQuestions,
         getUnansweredQuestions} 
       from '../Utils/searchUsers'
-import { getUsersState,getAnswerState} from '../Selectors/user'
+import { getUsersState} from '../Selectors/user'
 
 import {updateAnswer} from '../actions/shared'
 import { setAppStatus } from '../actions/AppProfile'
@@ -87,7 +87,7 @@ class QuestionPanel extends Component {
       //dispatch the updated answer
       
       const { dispatch, appstatus,login, question } = this.props
-      const { loggedIn} =this.props
+      
       const {QuestionPanel: {value}} = appstatus
       
       dispatch(updateAnswer(login.userid,question.id,value))
@@ -103,7 +103,7 @@ class QuestionPanel extends Component {
     }
 */
   render() {
-  const { dispatch, classes,users,question,appstatus,answered,login} = this.props
+  const {  classes,users,question,appstatus,answered,login} = this.props
   const {QuestionPanel: {radioButtonDisabled}} = appstatus
   const {QuestionPanel: {value}} = appstatus
 

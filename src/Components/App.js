@@ -12,7 +12,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography'
 import './App.css';
 import { handleInitialData } from '../actions/shared'
-import { getUsersState}  from '../Selectors/user'
+
 
 
 const styles = {
