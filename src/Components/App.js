@@ -12,6 +12,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography'
 import './App.css';
 import { handleInitialData } from '../actions/shared'
+import { setAppStatus } from '../actions/AppProfile';
 
 
 
@@ -50,6 +51,7 @@ class App extends Component {
     
     this.props.dispatch(handleInitialData())
     
+    
   }
 
   handleToggle = () => this.setState({open: !this.state.open})
@@ -64,6 +66,7 @@ class App extends Component {
 
   showNewQuestion =() => {
     this.setState({show: 'question', open: false})
+    this.props.dispatch(setAppStatus(this.props.appstatus['NewQuestion'], "open",true))
   }
 
   showLeaderBoard =() => {
@@ -83,6 +86,7 @@ class App extends Component {
         content= (<Home/>)
         break
       case 'question':
+      
         content= (<NewQuestion/>)
         break
       case 'leader':

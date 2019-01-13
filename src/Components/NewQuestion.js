@@ -7,6 +7,11 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { withStyles } from '@material-ui/core';
+import {compose } from 'recompose'
+import { connect } from 'react-redux'
+import { getUiState} from '../Selectors/UiSelectors'
+import { setAppStatus} from '../actions/AppProfile'
+
 
 
 
@@ -68,28 +73,36 @@ class NewQuestion extends Component {
     open: true,
   };
 
-  
+  componentDidMount() {
+    const {dispatch, appstatus} = this.props
+    dispatch(setAppStatus(appstatus['NewQuestion'], "open",true))
+  }
   
 
   handleClose = () => {
+
+    const {dispatch,appstatus } = this.props
+    dispatch(setAppStatus(appstatus['NewQuestion'], "open",false))
     this.setState({ open: false });
     //dispatch save question
   };
 
   render() {
 
-    const { classes} = this.props
+    const { classes,appstatus} = this.props
+    const {NewQuestion: {open}} = appstatus
+    
     return (
       <div>
         
         <Dialog className = {classes.heading }
-          open={this.state.open}
+          open={open}
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
         >
           <DialogTitle id="form-dialog-title">Create New Question</DialogTitle>
           <DialogContent>
-            <DialogContentText>
+            <DialogContentText className= {classes.heading}>
               Would you Rather...
             </DialogContentText>
             <TextField
@@ -121,4 +134,17 @@ class NewQuestion extends Component {
     );
   }
 }
-export default withStyles(styles) ( NewQuestion)
+
+function mapStateToProps(state,props) {
+  console.log('prop',state)
+  return {
+    appstatus: state.appstatus,
+  }
+}
+
+function mapPropsToState(dispatch){
+  
+
+}
+
+export default compose (connect(mapStateToProps),withStyles(styles)) ( NewQuestion)

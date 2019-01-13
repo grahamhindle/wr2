@@ -21,6 +21,9 @@ import {GET_APP_STATUS,
             radioButtonDisabled: false,
             result: false,
           },
+          NewQuestion: {
+            open:true,
+          }
         }     
 
 

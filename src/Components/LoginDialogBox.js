@@ -14,13 +14,7 @@ import { loginUser } from '../actions/Login.js'
 
 
 class LoginDialog extends React.Component {
-  constructor(props) {
-    super(props)
   
-  this.state = {
-    open: false,
-  };
-}
 
 
   handleClose = () => {
@@ -67,7 +61,7 @@ class LoginDialog extends React.Component {
       Login
       </Button>
       <Dialog
-        open={this.state.open}
+        open={open}
         onClose={this.handleClose}
         aria-labelledby="form-dialog-title"
         >
