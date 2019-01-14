@@ -9,7 +9,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { withStyles } from '@material-ui/core';
 import {compose } from 'recompose'
 import { connect } from 'react-redux'
-import { getUiState} from '../Selectors/UiSelectors'
 import { setAppStatus} from '../actions/AppProfile'
 
 
@@ -147,4 +146,4 @@ function mapPropsToState(dispatch){
 
 }
 
-export default compose (connect(mapStateToProps),withStyles(styles)) ( NewQuestion)
+export default compose(connect(mapStateToProps),withStyles(styles))( NewQuestion)

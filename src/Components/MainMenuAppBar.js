@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import { connect  } from 'react-redux'
-import { compose } from 'redux'
+import { compose } from 'recompose'
 import { AppBar,
          Toolbar,
+         
          IconButton,
          Typography,
          withStyles
 } from '@material-ui/core'
+import { unstable_Box as Box } from '@material-ui/core/Box';
 import MenuIcon from '@material-ui/icons/Menu'
 import MainMenuDrawer from './MainMenuDrawer'
 
@@ -54,16 +56,15 @@ class MainMenuAppBar extends Component {
         onClick={this.handleToggle}>
             <MenuIcon />
         </IconButton>
-        <Typography   
-            className={classes.grow} 
-            variant="h6"  
-            color='inherit'>Welcome to the Would You Rather App
+        <Typography component ='div'   
+            color='inherit'>
+            <Box textAlign="center" m={1}>
+            Welcome to the Would You Rather App
+          </Box>
+            
         </Typography>
         
-        <Typography   className={classes.grow} variant="h6"  
-            color='inherit'> 
-           
-        </Typography>
+        
         </Toolbar>
         </AppBar>
         <br/>

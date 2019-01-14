@@ -12,7 +12,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography'
 import './App.css';
 import { handleInitialData } from '../actions/shared'
-import { setAppStatus } from '../actions/AppProfile';
+import { setAppStatus } from '../actions/AppProfile'
+import Profile from '../Components/Profile'
 
 
 
@@ -101,10 +102,7 @@ class App extends Component {
         break
     }
 
-    const {classes ,appstatus,loggedIn} = this.props
-    
-    
-    
+    const {classes } = this.props
     return (
       <div className={classes.root}>
         <AppBar 
@@ -124,11 +122,7 @@ class App extends Component {
             <Typography   className={classes.grow} variant="h6"  
               color='inherit'> 
               
-              {/*appstatus.login  ?
-                `Hello ${loggedIn.name}`:
-                `Login to continue`
-              
-              */}
+             
             </Typography>
             
             <LoginDialogBox name = "LoginDialogBox"/>

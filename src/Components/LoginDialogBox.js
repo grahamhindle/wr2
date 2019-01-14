@@ -8,6 +8,7 @@ import {setAppStatus} from '../actions/AppProfile'
 import { getUsersState } from '../Selectors/user'
 import { getUiState} from '../Selectors/UiSelectors'
 import { loginUser } from '../actions/Login.js'
+import Profile from './Profile'
 
 
 
@@ -57,9 +58,9 @@ class LoginDialog extends React.Component {
     console.log('uiparams',open)
     return (
       <div>
-      <Button variant="outlined" component="span" color="inherit" onClick={this.handleClickOpen}>
-      Login
-      </Button>
+      <Profile open = {this.handleClickOpen}/>
+     
+      
       <Dialog
         open={open}
         onClose={this.handleClose}
