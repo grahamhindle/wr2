@@ -11,6 +11,8 @@ import { AppBar,
 import { unstable_Box as Box } from '@material-ui/core/Box';
 import MenuIcon from '@material-ui/icons/Menu'
 import MainMenuDrawer from './MainMenuDrawer'
+import { setAppStatus } from '../actions/AppProfile'
+import Profile from './Profile'
 
 const styles = {
     root: {
@@ -27,6 +29,9 @@ const styles = {
       marginLeft: -12,
       marginRight: 20,
     },
+    appbar: {
+        alignItems: 'center',
+      }
   };
   
 class MainMenuAppBar extends Component {
@@ -38,8 +43,13 @@ class MainMenuAppBar extends Component {
     handleChange = (open) => {
         this.setState({open})
     }
+
+    
+    
     handleToggle = () => this.setState({open: !this.state.open})
     render() {
+
+
 
     
     const { classes,  handleToggle} = this.props
@@ -49,7 +59,7 @@ class MainMenuAppBar extends Component {
     return (
         <div className={classes.root}>
         <AppBar 
-        position='static'
+        position='static' className={classes.appbar}
         >
         <Toolbar>
         <IconButton disabled={false} className={classes.menuButton} color="inherit" aria-label="Menu"
@@ -58,12 +68,9 @@ class MainMenuAppBar extends Component {
         </IconButton>
         <Typography component ='div'   
             color='inherit'>
-            <Box textAlign="center" m={1}>
             Welcome to the Would You Rather App
-          </Box>
-            
         </Typography>
-        
+            
         
         </Toolbar>
         </AppBar>

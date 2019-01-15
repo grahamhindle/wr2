@@ -1,8 +1,11 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import { Button ,Typography} from '@material-ui/core'
+import { Button ,Typography,Avatar,Menu,MenuItem,IconButton} from '@material-ui/core'
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import { withStyles} from '@material-ui/core'
 import { compose } from 'recompose'
+import { getUserProfile } from '../Selectors/Profile';
+import { userInfo } from 'os';
  
 
 
@@ -21,6 +24,12 @@ const styles = {
       marginLeft: -12,
       marginRight: 20,
     },
+    smlAvatar: {
+        margin: 10,
+        width: 50,
+        height: 50,
+      },
+    
   };
 
 const handleClickOpen = () => {
@@ -29,26 +38,63 @@ const handleClickOpen = () => {
     //change state back to login
 }
 
+const handleClose= ()=> {
+
+}
+
+const handleMenu = () => {
+
+}
 const Profile = (props) => {
 
-    const {login ,classes}  = props
-    const {auth} = login
-// diaply message on app bar, setup profile 
-//replace login button eith logoff
-    if ( auth){
-
-       return (
-        <div>
+    const {login ,classes,profile}  = props
+    if ( login.auth ){
+    return(
+       
+       
         
+        
+       
             
-            <Button variant="outlined" component="span" color="inherit" onClick={handleClickOpen}>
+              <div className={classes.root}>
+                <IconButton
+                  aria-owns={true ? 'menu-appbar' : undefined}
+                  aria-haspopup="true"
+                  onClick={handleMenu}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+        <Menu
+        id="menu-appbar"
+        anchorEl={null}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        open={false}
+        onClose={handleClose}
+      >
+        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem onClick={handleClose}>My account</MenuItem>
+      </Menu>
+            
+            
+           
+            <Avatar alt={profile.name} src={profile.avatarURL}className={classes.avatar}/>
+            <Typography   
+            className='span' 
+            variant="h6"  
+            color='inherit'>{profile.name}
+        </Typography>
+        <Button variant="outlined" component="span" color="inherit" onClick={props.open}>
             Logoff
             </Button>
-            <Typography   
-            className={classes.grow} 
-            variant="h6"  
-            color='inherit'>{login.userid}
-        </Typography>
+       
         </div>
     )
        }
@@ -71,10 +117,13 @@ const Profile = (props) => {
     
 }
 
-const mapStateToProps= ({login}) => {
+const mapStateToProps= (state => {
     return {
-        login
+        login: state.login,
+        profile: getUserProfile(state)
     }
-}
+    
+})
+
 export default compose(withStyles(styles),connect(mapStateToProps)) (Profile)
 

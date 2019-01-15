@@ -27,7 +27,14 @@ class LoginDialog extends React.Component {
       
   };
 
+  handleClickOpen = () => {
+    const { dispatch ,appstatus ,uiparams} = this.props
+    
+    dispatch(setAppStatus(appstatus['LoginDialogBox'], "open",true))
+    this.setState({ open: true });
+    console.log( 'uiparams',uiparams)
 
+  }
   
   authUser = (e) => {
     
@@ -41,25 +48,17 @@ class LoginDialog extends React.Component {
     
   }
 
-  handleClickOpen = () => {
-    const { dispatch ,appstatus ,uiparams} = this.props
-    console.log( 'uiparams',uiparams)
-    dispatch(setAppStatus(appstatus['LoginDialogBox'], "open",true))
-    this.setState({ open: true });
-    console.log( 'uiparams',uiparams)
-
-  }
-
+  
   
   render(){
 
     const { users,  appstatus} = this.props
     const {LoginDialogBox: {open}} = appstatus
-    console.log('uiparams',open)
+    
     return (
       <div>
-      <Profile open = {this.handleClickOpen}/>
      
+      <Profile open = {this.handleClickOpen}/>
       
       <Dialog
         open={open}
