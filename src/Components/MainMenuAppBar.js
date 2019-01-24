@@ -88,18 +88,12 @@ class MainMenuAppBar extends Component {
                 variant="h6"  
                 color='inherit' noWrap>{`Welcome  ${profile.name} `}
             </Typography>
-            
            <ProfileMenu />
-           
-            
             </Fragment>
-
-            
             }
           </Toolbar>
         </AppBar>
-        <SignIn />
-       
+        { !login.auth ? <SignIn /> : null}
       <br/>
       <Profile />
       <LoginDialogBox name = "LoginDialogBox"/>
@@ -116,7 +110,7 @@ const mapDispatchToProps = (state) => {
         appstatus: state.appstatus,
         login: state.login,
         profile: getUserProfile(state),
-        login: state.login
+        
     }  
 }
 export default compose(withStyles(styles),connect(mapDispatchToProps))(MainMenuAppBar)

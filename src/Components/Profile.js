@@ -58,40 +58,29 @@ const {login ,classes,}  = props
 const handleClickOpen = () => {
     
     props.dispatch(setAppStatus(props.appstatus['LoginDialogBox'], "open",true))
-        //load profile
+        
     
       }
     
-    if ( login.auth ){
-    return(
-            
-        <Fragment>
-            
-       
-        </Fragment>
-    )
-       }
-    else{
-        return(
-            <div className={classes.center}>
-            <Grid
-            container
-            spacing={16}
-            className={classes.demo}
-            alignItems='center'
-            direction='row'
-            justify='center'
-          >
-          
-                <Button variant="outlined" className={classes.menuButton} color="inherit" onClick={handleClickOpen}>
-                Logon
-                </Button>
-               
-             </Grid>  
-                
-            </div>
+    if ( !login.auth ){
+      return(
+        <div className={classes.center}>
+          <Grid
+          container
+          spacing={16}
+          className={classes.demo}
+          alignItems='center'
+          direction='row'
+          justify='center'
+        >
+          <Button variant="outlined" className={classes.menuButton} color="inherit" onClick={handleClickOpen}>
+          Logon
+          </Button>
+        </Grid>  
+      </div>
         )
     }
+    return null
     
 }
 

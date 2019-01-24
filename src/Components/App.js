@@ -47,20 +47,17 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state= {
-      "drawerOpen": false,
+      
       "show": null,
       "login": false,
-      "menuDisabled": false,
+     
       loginText: 'Login',
-      open: false,
+      
     }
   }
 
   componentDidMount(){
-    
     this.props.dispatch(handleInitialData())
-    
-    
   }
 
   handleToggle = () => this.setState({open: !this.state.open})
@@ -78,7 +75,6 @@ class App extends Component {
         content= (<Home/>)
         break
       case 'question':
-      
         content= (<NewQuestion/>)
         break
       case 'leader':
@@ -93,31 +89,19 @@ class App extends Component {
         break
     }
 
-    
-     
-
-    
     return (
       <div>
-     
         <MainMenuAppBar />
         <br/>
         <MainMenuDrawer />
-
-         
-
-        {content}
-           
-          
+        {content} 
       </div>
     )
   }
 }
 function mapStateToProps (state,props){
   return {
-    
     appstatus: state.appstatus,
-  
   }
 }
 

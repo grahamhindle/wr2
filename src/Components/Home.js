@@ -10,7 +10,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 import {setAppStatus } from '../actions/AppProfile'
-import { questionSubSet } from '../Selectors/questions'
+
 
 
 
@@ -92,7 +92,7 @@ function mapStateToProps(state) {
       questions: Object.values(state.questions),
       appstatus: state.appstatus,
       login:state.login,
-      qset: questionSubSet(state)
+      
 
       
   }

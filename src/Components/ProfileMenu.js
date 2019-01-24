@@ -5,44 +5,33 @@ import {setAppStatus } from '../actions/AppProfile'
 import { connect } from 'react-redux'
 import  DisplayProfile from './DisplayProfile'
 import Logout from './Logout'
-
+import { loginUser } from '../actions/Login.js'
 
 
 
 
 const ProfileMenu = (props) => {
+    let profile
     const { ProfileMenu: {open} }= props.appstatus
     const handleMenu = () => {
     props.dispatch(setAppStatus(props.appstatus['ProfileMenu'], "open",true))
+    props.dispatch(setAppStatus(appstatus['ProfileMenu'], "display",false))
     }
-
+    const handleProfile= (e)=> {
+        //display profile and scores
+        //props.dispatch(loginUser(false,"" ))
+        profile='profile'
+        props.dispatch(setAppStatus(appstatus['ProfileMenu'], "open",false))
+        props.dispatch(setAppStatus(appstatus['ProfileMenu'], "display",true))
+        
+        
+    }
+    const handleLogout= (e)=> {
+        props.dispatch(loginUser(false,"" ))
+        props.dispatch(setAppStatus(appstatus['ProfileMenu'], "open",false))
+        props.dispatch(setAppStatus(appstatus['ProfileMenu'], "display",false))
+    }
     
-
-    const handleMenuClose= (e)=> {
-
-        console.log('menu',e)
-        const { dispatch ,appstatus } = props
-        dispatch(setAppStatus(appstatus['ProfileMenu'], "open",false))
-    }
-    const handleClose= (e)=> {
-        const name = e.nativeEvent.target.outerText
-        const { dispatch ,appstatus } = props
-        dispatch(setAppStatus(appstatus['ProfileMenu'], "open",false))
-       dispatch(setAppStatus(appstatus['ProfileMenu'], "selected",e.nativeEvent.target.outerText))
-        
-
-        const str1 = appstatus['ProfileMenu'].selected
-        
-        if ( String(str1) == String('Profile\n')){
-             console.log('Profile')
-        }else if (str1 == String('Logout\n')){
-            console.log('Logout')
-        }
-
-          
-
-    }
-
     const {appstatus} = props
     return (
         <Fragment>
@@ -66,24 +55,23 @@ const ProfileMenu = (props) => {
                     horizontal: 'right',
                 }}
                 open={open}
-                onClose={handleClose}
+                
             >
-                <MenuItem name='profile' onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                <MenuItem name='profile' onClick={handleProfile}>Profile</MenuItem>
+                <MenuItem name ='logout' onClick={handleLogout}>Logout</MenuItem>
                 
             </Menu>
-            { appstatus['ProfileMenu'].selected === 'Profile' ?
-            <DisplayProfile/> : appstatus['ProfileMenu'].selected === 'Logout'?
-             <Logout />: null}
+            { appstatus['ProfileMenu'].display === true ? <DisplayProfile/> : null}
         </Fragment>
     )  
 
 }
 
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({appstatus, login}) => {
     return{
-        appstatus: state.appstatus
+        appstatus,
+        login,
     }
 }
 export default connect(mapStateToProps)(ProfileMenu)
