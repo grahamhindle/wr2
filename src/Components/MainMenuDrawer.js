@@ -9,6 +9,7 @@ import { Drawer,
          withStyles
 } from '@material-ui/core'
 import { setUidState,getUidState } from '../actions/shared'
+import {setAppStatus} from '../actions/AppProfile'
 
 
 
@@ -23,37 +24,51 @@ const styles = {
   }
 
 
-
-
-
 class MainMenuDrawer extends Component {
-    state = {
-        "open": false,
-    }
     
    
-    
 
-   
+
+    
+    
+      showHome =() => {
+        this.props.dispatch(setAppStatus(this.props.appstatus['MainMenuDrawer'], "show",'home'))
+      }
+    
+      showNewQuestion =() => {
+        
+        this.props.dispatch(setAppStatus(this.props.appstatus['MainMenuDrawer'], "show",'question'))
+        //this.props.dispatch(setAppStatus(this.props.appstatus['NewQuestion'], //"open",true))
+      }
+    
+      showLeaderBoard =() => {
+        this.props.dispatch(setAppStatus(this.props.appstatus['MainMenuDrawer'], "show",'leader'))
+      }
+      login = () => {
+        this.setState((state, props) => ({
+          show: 'login',login: true
+        }));
+      }
     render (){
-        const {classes, uidstate, id,autheduser,home, newQuestion, leaderBoard }= this.props
-        const {open} =this.state.open
- 
+        const {classes, appstatus, uidstate, id,autheduser,home, newQuestion, leaderBoard }= this.props
+        const {MainMenuDrawer: {open}} =appstatus
+        console.log(" Drawer", open)
     
     return (
         
         <Drawer
-            classes={{modal: classes.modal}}
-            anchor='left'
-            width={200}
-            open={this.props.open}
-            onChange={this.props.change}
-        >
-        <MenuItem onClick = {this.props.home}>Home</MenuItem>
-        <Divider />
-        <MenuItem onClick = {this.props.newQuestion}>New Question</MenuItem>
-        <MenuItem onClick = {this.props.leaderBoard}>Leader Board</MenuItem>
-        </Drawer> 
+        classes={{modal: classes.modal}}
+          anchor='left'
+          width={200}
+          open={open}
+          onClick={(open)=> this.props.dispatch(setAppStatus(appstatus['MainMenuDrawer'], "open",false))}>
+          
+          <MenuItem onClick = {this.showHome}>Home</MenuItem>
+          <Divider />
+          <MenuItem onClick = {this.showNewQuestion}>New Question</MenuItem>
+          <MenuItem onClick = {this.showLeaderBoard}>Leader Board</MenuItem>
+          
+         </Drawer> 
         
     )    
 }
@@ -63,7 +78,8 @@ class MainMenuDrawer extends Component {
 const mapStateToProps = state => {
     return {
       users:state.users,
-      autheduser: state.autheduser
+      autheduser: state.autheduser,
+      appstatus: state.appstatus
     }
   }
 

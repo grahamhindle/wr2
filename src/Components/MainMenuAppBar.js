@@ -1,18 +1,24 @@
-import React, { Component } from 'react'
+import React, { Component,Fragment } from 'react'
 import { connect  } from 'react-redux'
 import { compose } from 'recompose'
 import { AppBar,
          Toolbar,
-         
+         Avatar,
          IconButton,
          Typography,
-         withStyles
+         withStyles,
+         
 } from '@material-ui/core'
-import { unstable_Box as Box } from '@material-ui/core/Box';
 import MenuIcon from '@material-ui/icons/Menu'
-import MainMenuDrawer from './MainMenuDrawer'
+
+
+
 import { setAppStatus } from '../actions/AppProfile'
 import Profile from './Profile'
+import LoginDialogBox from './LoginDialogBox'
+import { getUserProfile} from '../Selectors/Profile'
+import SignIn from './signin'
+import ProfileMenu from './ProfileMenu'
 
 const styles = {
     root: {
@@ -40,53 +46,77 @@ class MainMenuAppBar extends Component {
         open:false
     }
 
+    
+
     handleChange = (open) => {
         this.setState({open})
     }
 
-    
-    
-    handleToggle = () => this.setState({open: !this.state.open})
-    render() {
-
-
-
-    
-    const { classes,  handleToggle} = this.props
-    const disabled = this.state.iconbuttondisabled
-
-    
-    return (
-        <div className={classes.root}>
-        <AppBar 
-        position='static' className={classes.appbar}
-        >
-        <Toolbar>
-        <IconButton disabled={false} className={classes.menuButton} color="inherit" aria-label="Menu"
-        onClick={this.handleToggle}>
-            <MenuIcon />
-        </IconButton>
-        <Typography component ='div'   
-            color='inherit'>
-            Welcome to the Would You Rather App
-        </Typography>
-            
+    handleToggle = () => {
+        const { dispatch, appstatus} = this.props
+        const {'MainMenuDrawer': {open}} = appstatus
+        let val = !open
         
-        </Toolbar>
+        console.log(val)
+        dispatch(setAppStatus(appstatus['MainMenuDrawer'], "open",val))
+    }
+    render() {
+    const { classes, profile, appstatus, login, handleToggle} = this.props
+   
+    const disabled = this.state.iconbuttondisabled
+    return (
+    <div className={classes.root}>
+        <AppBar 
+          position='static'
+          >
+          <Toolbar>
+            <IconButton disabled={false} className={classes.menuButton}             color="inherit" aria-label="Menu"
+                onClick={this.handleToggle}>
+            <MenuIcon />
+            </IconButton>
+                <Typography   
+                    className={classes.grow} 
+                    variant="h6"  
+                    color='inherit'>Welcome to the Would You Rather App
+                </Typography>
+            {login.auth &&
+                <Fragment>
+            <Avatar alt={profile.name} src={profile.avatarURL} 
+                className= {classes.avatar} />
+            <Typography   
+                className='span' 
+                variant="h6"  
+                color='inherit' noWrap>{`Welcome  ${profile.name} `}
+            </Typography>
+            
+           <ProfileMenu />
+           
+            
+            </Fragment>
+
+            
+            }
+          </Toolbar>
         </AppBar>
-        <br/>
-        <MainMenuDrawer open = {this.state.open}
-                        change = {this.handleChange}
-        />
+        <SignIn />
+       
+      <br/>
+      <Profile />
+      <LoginDialogBox name = "LoginDialogBox"/>
+
         </div>
-        )
+    )   
+       
     }
 }
 
 const mapDispatchToProps = (state) => {
     return {
-        uidstate: state.uidstate,
-        authedUser: state.autheduser
+        
+        appstatus: state.appstatus,
+        login: state.login,
+        profile: getUserProfile(state),
+        login: state.login
     }  
 }
 export default compose(withStyles(styles),connect(mapDispatchToProps))(MainMenuAppBar)

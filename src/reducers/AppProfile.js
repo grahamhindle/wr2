@@ -23,6 +23,13 @@ import {GET_APP_STATUS,
           },
           NewQuestion: {
             open:true,
+          },
+          ProfileMenu:{
+            open:false,
+            selected: '',
+          },
+          MainMenuDrawer: {
+            open: false,
           }
         }     
 

@@ -21,29 +21,21 @@ class LoginDialog extends React.Component {
   handleClose = () => {
     const { dispatch ,appstatus} = this.props
     dispatch(setAppStatus(appstatus['LoginDialogBox'], "open",false))
-    this.setState((state,props) => ({
-        open: false
-      }));
+   
       
-  };
+  }
 
   handleClickOpen = () => {
-    const { dispatch ,appstatus ,uiparams} = this.props
-    
+    const { dispatch ,appstatus} = this.props
     dispatch(setAppStatus(appstatus['LoginDialogBox'], "open",true))
-    this.setState({ open: true });
-    console.log( 'uiparams',uiparams)
-
+   
   }
   
   authUser = (e) => {
     
-   
-    const { dispatch} = this.props
-    this.setState(() => ({
-     open: false
-    }));
+    const { dispatch,appstatus  } = this.props
     dispatch(loginUser(true, e))
+    
     this.handleClose()
     
   }
@@ -53,15 +45,15 @@ class LoginDialog extends React.Component {
   render(){
 
     const { users,  appstatus} = this.props
-    const {LoginDialogBox: {open}} = appstatus
     
+    console.log()
     return (
       <div>
      
-      <Profile open = {this.handleClickOpen}/>
+      
       
       <Dialog
-        open={open}
+        open={appstatus['LoginDialogBox'].open}
         onClose={this.handleClose}
         aria-labelledby="form-dialog-title"
         >

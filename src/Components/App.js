@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component,Fragment } from 'react';
 import { connect } from 'react-redux'
 import {compose} from 'recompose'
 import Home from './Home'
@@ -6,7 +6,7 @@ import LeaderBoard from './LeaderBoard'
 import NewQuestion from './NewQuestion'
 import LoginDialogBox from './LoginDialogBox'
 import { withStyles } from '@material-ui/core/styles';
-import { AppBar,  Drawer, Divider, MenuItem, Toolbar} from '@material-ui/core'
+import { AppBar,  Drawer, Divider, MenuItem, Toolbar, Paper, Link} from '@material-ui/core'
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography'
@@ -14,10 +14,13 @@ import './App.css';
 import { handleInitialData } from '../actions/shared'
 import { setAppStatus } from '../actions/AppProfile'
 import Profile from '../Components/Profile'
+import MainMenuAppBar from './MainMenuAppBar'
+import MainMenuDrawer from './MainMenuDrawer'
 
 
 
-const styles = {
+
+const styles = theme => ({
   root: {
     flexGrow: 1,
   },
@@ -32,7 +35,12 @@ const styles = {
     marginLeft: -12,
     marginRight: 20,
   },
-};
+  root2: {
+    ...theme.mixins.gutters(),
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
+  },
+})
 
 
 class App extends Component {
@@ -44,7 +52,7 @@ class App extends Component {
       "login": false,
       "menuDisabled": false,
       loginText: 'Login',
-
+      open: false,
     }
   }
 
@@ -57,32 +65,15 @@ class App extends Component {
 
   handleToggle = () => this.setState({open: !this.state.open})
   handleLoginToggle= () => this.setState({show: 'login',login:!this.state.login})
-  showBar =() => {
-    this.setState({show: 'bar', open: false})
-  }
-
-  showHome =() => {
-    this.setState({show: 'home', open: false})
-  }
-
-  showNewQuestion =() => {
-    this.setState({show: 'question', open: false})
-    this.props.dispatch(setAppStatus(this.props.appstatus['NewQuestion'], "open",true))
-  }
-
-  showLeaderBoard =() => {
-    this.setState({show: 'leader', open: false})
-  }
-  login = () => {
-    this.setState((state, props) => ({
-      show: 'login',login: true
-    }));
-  }
+  
   render() {
     let content = null
 //to do - make this part of react router
     console.log(this.state.show)
-    switch (this.state.show) {
+    const { appstatus} = this.props
+
+    const {'MainMenuDrawer':{show}} = appstatus
+    switch (show) {
       case 'home':
         content= (<Home/>)
         break
@@ -102,50 +93,24 @@ class App extends Component {
         break
     }
 
-    const {classes } = this.props
+    
+     
+
+    
     return (
-      <div className={classes.root}>
-        <AppBar 
-          position='static'
-          >
-          <Toolbar>
-            <IconButton disabled={false} className={classes.menuButton} color="inherit" aria-label="Menu"
-            onClick={this.handleToggle}>
-              <MenuIcon />
-            </IconButton>
-            <Typography   
-              className={classes.grow} 
-              variant="h6"  
-              color='inherit'>Welcome to the Would You Rather App
-            </Typography>
-            
-            <Typography   className={classes.grow} variant="h6"  
-              color='inherit'> 
-              
-             
-            </Typography>
-            
-            <LoginDialogBox name = "LoginDialogBox"/>
-            
-          </Toolbar>
-        </AppBar>
+      <div>
+     
+        <MainMenuAppBar />
         <br/>
-        <Drawer
-        classes={{modal: classes.modal}}
-          anchor='left'
-          width={200}
-          open={this.state.open}
-          onChange={(open)=> this.setState({open})}>
-          
-          <MenuItem onClick = {this.showHome}>Home</MenuItem>
-          <Divider />
-          <MenuItem onClick = {this.showNewQuestion}>New Question</MenuItem>
-          <MenuItem onClick = {this.showLeaderBoard}>Leader Board</MenuItem>
-          
-         </Drawer> 
+        <MainMenuDrawer />
+
+         
+
         {content}
+           
+          
       </div>
-    );
+    )
   }
 }
 function mapStateToProps (state,props){

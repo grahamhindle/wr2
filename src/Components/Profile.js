@@ -1,15 +1,15 @@
-import React from 'react'
+import React, { Fragment} from 'react'
 import {connect} from 'react-redux'
-import { Button ,Typography,Avatar,Menu,MenuItem,IconButton} from '@material-ui/core'
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import { Button ,Typography,Avatar,Menu,MenuItem,IconButton,Grid} from '@material-ui/core'
+
 import { withStyles} from '@material-ui/core'
 import { compose } from 'recompose'
 import { getUserProfile } from '../Selectors/Profile';
-import { userInfo } from 'os';
+import { setAppStatus} from '../actions/AppProfile'
  
 
 
-const styles = {
+const styles = theme => ({
     root: {
       flexGrow: 1,
     },
@@ -21,109 +21,88 @@ const styles = {
       flexGrow: 1,
     },
     menuButton: {  
-      marginLeft: -12,
-      marginRight: 20,
+      paddingTop:12,
+      paddingBottom: 12,
     },
     smlAvatar: {
         margin: 10,
         width: 50,
         height: 50,
       },
+      centertext: {
+          display: 'flex',
+          [theme.breakpoints.up('md')]: {
+            display: 'none',
+          },
+        },
+    container: {
+        display:'flex',
+        justifyContent: 'center',
+    textAlign: 'center',
+    flexGrow: '50%,'
+    }
+          
+
+     
     
-  };
+  })
 
-const handleClickOpen = () => {
-    //disable menu
-    //clear the screen
-    //change state back to login
-}
 
-const handleClose= ()=> {
 
-}
 
-const handleMenu = () => {
 
-}
 const Profile = (props) => {
 
-    const {login ,classes,profile}  = props
+const {login ,classes,}  = props
+
+const handleClickOpen = () => {
+    
+    props.dispatch(setAppStatus(props.appstatus['LoginDialogBox'], "open",true))
+        //load profile
+    
+      }
+    
     if ( login.auth ){
     return(
-       
-       
-        
-        
-       
             
-              <div className={classes.root}>
-                <IconButton
-                  aria-owns={true ? 'menu-appbar' : undefined}
-                  aria-haspopup="true"
-                  onClick={handleMenu}
-                  color="inherit"
-                >
-                  <AccountCircle />
-                </IconButton>
-        <Menu
-        id="menu-appbar"
-        anchorEl={null}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        open={false}
-        onClose={handleClose}
-      >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-      </Menu>
+        <Fragment>
             
-            
-           
-            <Avatar alt={profile.name} src={profile.avatarURL}className={classes.avatar}/>
-            <Typography   
-            className='span' 
-            variant="h6"  
-            color='inherit'>{profile.name}
-        </Typography>
-        <Button variant="outlined" component="span" color="inherit" onClick={props.open}>
-            Logoff
-            </Button>
        
-        </div>
+        </Fragment>
     )
        }
     else{
         return(
-            <div>
-           
-               
-                <Button variant="outlined" component="span" color="inherit" onClick={props.open}>
+            <div className={classes.center}>
+            <Grid
+            container
+            spacing={16}
+            className={classes.demo}
+            alignItems='center'
+            direction='row'
+            justify='center'
+          >
+          
+                <Button variant="outlined" className={classes.menuButton} color="inherit" onClick={handleClickOpen}>
                 Logon
                 </Button>
-                <Typography   
-                className={classes.grow} 
-                variant="h6"  
-                color='inherit'>You need to logon
-            </Typography>
+               
+             </Grid>  
+                
             </div>
         )
     }
     
 }
 
-const mapStateToProps= (state => {
+const mapStateToProps= (state) => {
     return {
         login: state.login,
-        profile: getUserProfile(state)
+        profile: getUserProfile(state),
+        appstatus: state.appstatus,
     }
     
-})
+}
 
 export default compose(withStyles(styles),connect(mapStateToProps)) (Profile)
 
