@@ -10,6 +10,8 @@ import { withStyles } from '@material-ui/core';
 import {compose } from 'recompose'
 import { connect } from 'react-redux'
 import { setAppStatus} from '../actions/AppProfile'
+import { getUsersState } from '../Selectors/user';
+import questions from '../reducers/questions';
 
 
 
@@ -67,30 +69,27 @@ const styles = theme => ({
   
 })
 
-class NewQuestion extends Component {
+class DisplayProfile extends Component {
   state = {
     open: true,
   };
-
   componentDidMount() {
     const {dispatch, appstatus} = this.props
-    dispatch(setAppStatus(appstatus['NewQuestion'], "open",true))
+    dispatch(setAppStatus(appstatus['ProfileDisplay'], "open",true))
   }
   
-
   handleClose = () => {
-
     const {dispatch,appstatus } = this.props
-    dispatch(setAppStatus(appstatus['NewQuestion'], "open",false))
+    dispatch(setAppStatus(appstatus['ProfileDisplay'], "open",false))
     this.setState({ open: false });
     //dispatch save question
   };
 
   render() {
 
-    const { classes,appstatus} = this.props
-    const {NewQuestion: {open}} = appstatus
-    
+    const { classes,appstatus, user} = this.props
+    const {ProfileDisplay: {open}} = appstatus
+    console.log('profile',user)
     return (
       <div>
         
@@ -99,11 +98,15 @@ class NewQuestion extends Component {
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
         >
-          <DialogTitle id="form-dialog-title">Create New Question</DialogTitle>
+          <DialogTitle id="form-dialog-title">User Profile</DialogTitle>
           <DialogContent>
             <DialogContentText className= {classes.heading}>
-              Would you Rather...
+            {user.name}
             </DialogContentText>
+            <DialogContentText className= {classes.heading}>
+            Answered {Object.keys(user.answers).length} questions
+            </DialogContentText>
+            Submitted {user.questions.length}
             <TextField
             id="standard-with-placeholder"
             label="enter option one text"
@@ -134,16 +137,15 @@ class NewQuestion extends Component {
   }
 }
 
-function mapStateToProps(state,props) {
-  console.log('prop',state)
+function mapStateToProps(state) {
+  
   return {
-    appstatus: state.appstatus,
+    appstatus:state.appstatus,
+    user: state.users[state.login.userid]
+
   }
 }
 
-function mapPropsToState(dispatch){
-  
 
-}
 
-export default compose(connect(mapStateToProps),withStyles(styles))( NewQuestion)
+export default compose(connect(mapStateToProps),withStyles(styles))( DisplayProfile)

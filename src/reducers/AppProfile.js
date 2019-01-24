@@ -28,6 +28,9 @@ import {GET_APP_STATUS,
             open:false,
             selected: '',
           },
+          ProfileDisplay:{
+            open:false,
+          },
           MainMenuDrawer: {
             open: false,
           }

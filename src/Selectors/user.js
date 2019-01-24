@@ -6,7 +6,7 @@ import { createSelector } from 'reselect'
 
 const getUsers = (state) => {
   
-  console.log('state',state)
+  
   return (
     state.login.auth === true ?
       state.users[state.login.userid]
@@ -19,7 +19,9 @@ const getUsers = (state) => {
 //reselect
 export const getUsersState = () =>createSelector(
   [ getUsers ],
-  (login) => login
+  (user) => user
 )
+
+
 
 
