@@ -78,7 +78,7 @@ class QuestionPanel extends Component {
     handleChange = (event,value) => {
       const { dispatch, appstatus} = this.props
       
-      console.log('value',event.target.value)
+      
       dispatch(setAppStatus( appstatus['QuestionPanel'], 'value',event.target.value ))
       
     }
@@ -107,7 +107,7 @@ class QuestionPanel extends Component {
   const {QuestionPanel: {radioButtonDisabled}} = appstatus
   const {QuestionPanel: {value}} = appstatus
 
-  console.log(this.props)
+ 
   // create action for this
   const author = getUserByAuthor(Object.values(users), question.author)
 

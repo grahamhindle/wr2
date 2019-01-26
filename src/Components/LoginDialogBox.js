@@ -46,7 +46,7 @@ class LoginDialog extends React.Component {
 
     const { users,  appstatus} = this.props
     
-    console.log()
+  
     return (
       <div>
      
@@ -82,7 +82,7 @@ class LoginDialog extends React.Component {
 
 
 function mapStateToProps(state,props) {
-  console.log('prop',props)
+
   return {
     
     uiparams: getUiState(state,props.name),

@@ -57,7 +57,7 @@ class MainMenuAppBar extends Component {
         const {'MainMenuDrawer': {open}} = appstatus
         let val = !open
         
-        console.log(val)
+      
         dispatch(setAppStatus(appstatus['MainMenuDrawer'], "open",val))
     }
     render() {

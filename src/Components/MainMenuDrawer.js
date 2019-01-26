@@ -36,9 +36,10 @@ class MainMenuDrawer extends Component {
       }
     
       showNewQuestion =() => {
-        
-        this.props.dispatch(setAppStatus(this.props.appstatus['MainMenuDrawer'], "show",'question'))
-        //this.props.dispatch(setAppStatus(this.props.appstatus['NewQuestion'], //"open",true))
+        const { dispatch, appstatus} = this.props
+        const {MainMenuDrawer: {show}} = appstatus
+        this.props.dispatch(setAppStatus(this.props.appstatus['MainMenuDrawer'], "show","question"))
+        this.props.dispatch(setAppStatus(this.props.appstatus['NewQuestion'], "open",true))
       }
     
       showLeaderBoard =() => {
@@ -52,7 +53,7 @@ class MainMenuDrawer extends Component {
     render (){
         const {classes, appstatus, uidstate, id,autheduser,home, newQuestion, leaderBoard }= this.props
         const {MainMenuDrawer: {open}} =appstatus
-        console.log(" Drawer", open)
+    
     
     return (
         

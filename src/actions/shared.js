@@ -5,6 +5,7 @@ import { loginUser } from './Login'
 import { getAppProfile,setAppProfile, setAppStatus} from './AppProfile'
 import { saveQuestionAndAnswer, 
           receiveAppProfile, 
+          saveNewQuestion,
         } from '../Utils/api';
 
 import { _saveAppStatus,
@@ -37,13 +38,23 @@ export function updateAnswer(authedUser, id, answer) {
     }
 }
 
-
-
 export function setLoggedInUser(new_profile) {
   return (dispatch) => {
     return _saveAppStatus(new_profile)
       .then (({appstatus}) => {
         dispatch(setAppProfile(appstatus))
+
+      })
+    }
+}
+
+
+export function saveQuestion(question) {
+  return (dispatch) => {
+    return saveNewQuestion(question)
+      .then(({questions,users}) => {
+        dispatch(receiveUsers(users))
+        dispatch(receiveQuestions(questions))
 
       })
     }

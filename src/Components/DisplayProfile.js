@@ -89,7 +89,7 @@ class DisplayProfile extends Component {
 
     const { classes,appstatus, user} = this.props
     const {ProfileDisplay: {open}} = appstatus
-    console.log('profile',user)
+   
     return (
       <div>
         

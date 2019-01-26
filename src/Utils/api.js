@@ -4,6 +4,7 @@ import { _getUsers,
     _getAppStatus,
     _saveAppStatus,
     _updateAppStatus,
+    _saveQuestion,
   } from './_Data'
 
 
@@ -53,14 +54,20 @@ import { _getUsers,
     }))
   }
   export function saveQuestionAndAnswer(authedUser, id, answer) {
-    
-
-    
     return Promise.all([
       _saveQuestionAnswer ( authedUser,id , answer )
     ]).then(([users,questions]) => ({
       users,
       questions,
+    }))
+  
+  }
+  export function saveNewQuestion(question) {
+    return Promise.all([
+      _saveQuestion ( question )
+    ]).then(([questions,users]) => ({
+      questions,
+      users,
     }))
   
   }

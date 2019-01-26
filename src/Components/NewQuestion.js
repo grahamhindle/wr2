@@ -6,10 +6,13 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import {Typography} from '@material-ui/core'
 import { withStyles } from '@material-ui/core';
 import {compose } from 'recompose'
 import { connect } from 'react-redux'
 import { setAppStatus} from '../actions/AppProfile'
+
+import { saveQuestion } from '../actions/shared';
 
 
 
@@ -70,6 +73,7 @@ const styles = theme => ({
 class NewQuestion extends Component {
   state = {
     open: true,
+    optionOne: ""
   };
 
   componentDidMount() {
@@ -82,9 +86,39 @@ class NewQuestion extends Component {
 
     const {dispatch,appstatus } = this.props
     dispatch(setAppStatus(appstatus['NewQuestion'], "open",false))
-    this.setState({ open: false });
-    //dispatch save question
-  };
+    dispatch(setAppStatus(appstatus['NewQuestion'], "OptionOne",""))
+    dispatch(setAppStatus(appstatus['NewQuestion'], "OptionTwo",""))
+    
+  }
+  onSubmit= (e) => {
+    //format the question and save it
+    //validate values
+    
+    e.preventDefault()
+    
+    const { dispatch, appstatus,login} = this.props
+    const { NewQuestion: { optionOne, optionTwo}} = appstatus
+    if ( optionOne === undefined ||  optionTwo === undefined) {
+        return alert("Please enter option one and option two ")
+    }
+    
+   dispatch(setAppStatus(appstatus['NewQuestion'], "open",false))
+   
+   const question = {
+    optionOneText: optionOne, 
+    optionTwoText:optionTwo, 
+    author: login.userid} 
+    dispatch(saveQuestion(question))
+
+    //now save the question
+
+
+  }
+  handleChange = name => ({ target: {value} }) =>  {
+    const {dispatch,appstatus } = this.props
+    dispatch(setAppStatus(appstatus['NewQuestion'], name,value))
+  }
+
 
   render() {
 
@@ -92,39 +126,47 @@ class NewQuestion extends Component {
     const {NewQuestion: {open}} = appstatus
     
     return (
-      <div>
+      <div >
         
-        <Dialog className = {classes.heading }
+        <Dialog className = {classes.root }
           open={open}
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
         >
-          <DialogTitle id="form-dialog-title">Create New Question</DialogTitle>
+        <DialogTitle id="customized-dialog-title" onClose={this.handleClose}>
+            Enter a new Question
+          </DialogTitle>
+          
           <DialogContent>
             <DialogContentText className= {classes.heading}>
               Would you Rather...
             </DialogContentText>
+            <form>
             <TextField
-            id="standard-with-placeholder"
             label="enter option one text"
             placeholder="Placeholder"
-            className={classes.column}
+            className={classes.textField}
+            onChange={this.handleChange('optionOne')}
             margin="normal"
           />
-          Or
-          <TextField
-          id="standard-with-placeholder"
-          label="enter option two text"
-          placeholder="Placeholder"
-          className={classes.textField}
-          margin="normal"
-        />
+            <br/>
+            Or
+            <br/>
+            <TextField
+              label="enter option one text"
+              placeholder="Placeholder"
+              className={classes.textField}
+              onChange={this.handleChange('optionTwo')}
+              margin="normal"
+            />
+            </form>
+           
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">
               Cancel
             </Button>
-            <Button onClick={this.handleClose} color="primary">
+            <Button onClick={this.onSubmit} color="primary">
               Submit
             </Button>
           </DialogActions>
@@ -135,9 +177,10 @@ class NewQuestion extends Component {
 }
 
 function mapStateToProps(state,props) {
-  console.log('prop',state)
+
   return {
     appstatus: state.appstatus,
+    login: state.login
   }
 }
 

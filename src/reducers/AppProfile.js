@@ -33,12 +33,13 @@ import {GET_APP_STATUS,
           },
           MainMenuDrawer: {
             open: false,
+            show: "",
           }
         }     
 
 
 export default function appstatus( state = InitialState, action) {
-  console.log('appstatus',action.appstatus)
+ 
   switch ( action.type) {
     
     case GET_APP_STATUS:
@@ -53,10 +54,11 @@ export default function appstatus( state = InitialState, action) {
         ...action.appstatus
       }
      case UPDATE_APP_STATUS:
+     console.log('app',action.appstatus)
      return {
        ...state,
+       ...appstatus,
        ...action.appstatus[action.key] = action.value
-       
      }
      /*
       return Object.assign({},action.appstatus,{

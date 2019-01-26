@@ -66,7 +66,7 @@ class App extends Component {
   render() {
     let content = null
 //to do - make this part of react router
-    console.log(this.state.show)
+    
     const { appstatus} = this.props
 
     const {'MainMenuDrawer':{show}} = appstatus

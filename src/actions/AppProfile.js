@@ -18,6 +18,7 @@ export function setAppProfile(appstatus){
 }
 
 export function setAppStatus(appstatus, key,value) {
+  console.log('action',appstatus)
   return {
     type: UPDATE_APP_STATUS,
     appstatus,
